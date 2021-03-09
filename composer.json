@@ -1,0 +1,12 @@
+{
+    "name": "ibu/cardiaries",
+    "description": "site for car info",
+    "license": "apache2",
+    "authors": [
+        {
+            "name": "ahmedbecirevic",
+            "email": "ahmed.becirevic@stu.ibu.edu.ba"
+        }
+    ],
+    "require": {}
+}
