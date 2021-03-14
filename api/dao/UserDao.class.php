@@ -27,8 +27,17 @@ class UserDao extends BaseDao
         return $user;
     }
 
-    public function update_user($id, $update) 
+    public function update_user($id, $user) 
     {
+        $sql = "UPDATE users 
+                SET username = :username, email = :email, password = :password, account_id = :account_id
+                WHERE id = :id";
+
+        $stmt= $this->connection->prepare($sql);
+        $user["id"] = $id;
+        $stmt->execute($user);
         
+
+        return $user;
     }
 }
