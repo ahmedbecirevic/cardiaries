@@ -28,20 +28,21 @@ class BaseDao
     public function update($table, $id, $entity, $id_column = "id")
     {
         $query = "UPDATE ";
-
     }
 
     public function query($query, $params)
     {
-
         $stmt = $this->connection->prepare($query);
         $stmt->execute($params);
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // PDO::FETCH_ASSOC used to ensure no duplicate elements 
     }
 
-    public function query_unique()
+    public function query_unique($query, $params) 
     {
+        $result = $this->query($query, $params);
+
+        return reset($result); // reset - returns first element of array, checks if null etc. 
 
     }
 }
