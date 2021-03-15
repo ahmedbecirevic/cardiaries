@@ -28,21 +28,21 @@ class BaseDao
     public function update($table, $id, $entity, $id_column = "id")
     {
         //generating automated query
-        $query = "UPDATE . $table . SET ";
+        $query = "UPDATE $table SET ";
         
         foreach ($entity as $column => $value) {
             $query.= $column." = :".$column.", ";
         }
         
         $query = mb_substr($query, 0, -2);
-        $query .= " WHERE $id_column = :id";
+        $query .= " WHERE ${id_column} = :id";
 
         //executing the query
         $stmt= $this->connection->prepare($query);
-        $user["id"] = $id;
-        $stmt->execute($entity );
+        $entity['id'] = $id;
+        $stmt->execute($entity);
 
-        return $user;
+        return $entity;
     }
 
 

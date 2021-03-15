@@ -36,4 +36,9 @@ class UserDao extends BaseDao
                 WHERE id = :id";
         */
     }
+
+    public function updateUserByEmail($email, $user) 
+    {
+        $this->update("users", $email, $user, "email");   
+    }
 }
