@@ -4,23 +4,22 @@ require_once dirname(__FILE__) . "/../config.php";
 
 class BaseDao
 {
-
+    private $table;
     protected $connection;
 
-    public function __construct()
+    public function __construct($table)
     {
-
+        $this->table = $table;
         try {
             $this->connection = new PDO("mysql:host=" . Config::DB_HOST . ";dbname=" . Config::DB_SCHEME, Config::DB_USERNAME, Config::DB_PASSWORD);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
 
     }
 
-    public function insert($table, $entity)
+    protected function insert($table, $entity)
     {
         $query = "INSERT INTO $table (";
 
@@ -40,7 +39,7 @@ class BaseDao
         return $entity;
     }
 
-    public function update($table, $id, $entity, $id_column = "id")
+    protected function execute_update($table, $id, $entity, $id_column = "id")
     {
         //generating automated query
         $query = "UPDATE $table SET ";
@@ -58,8 +57,7 @@ class BaseDao
         $stmt->execute($entity);
     }
 
-
-    public function query($query, $params)
+    protected function query($query, $params)
     {
         $stmt = $this->connection->prepare($query);
         $stmt->execute($params);
@@ -67,10 +65,22 @@ class BaseDao
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // PDO::FETCH_ASSOC used to ensure no duplicate elements 
     }
 
-    public function query_unique($query, $params) 
+    protected function query_unique($query, $params) 
     {
         $result = $this->query($query, $params);
         return reset($result); // reset - returns first element of array, checks if null etc. 
 
+    }
+
+    public function add($entity) {
+        return $this->insert($this->table, $entity);
+    }
+
+    public function update($id, $entity) {
+        $this->execute_update($this->table, $id, $entity);
+    }
+
+    public function get_by_id($id) {
+        return $this->query_unique("SELECT * FROM ".$this->table." WHERE id = :id", ["id" => $id]);
     }
 }
