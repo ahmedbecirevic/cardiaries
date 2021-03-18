@@ -8,5 +8,8 @@ class ManufacturersDao extends BaseDao {
         parent::__construct("manufacturers");
     }
 
+    public function get_all_manufacturers() {
+        return $this->query("SELECT * FROM manufacturers", []);
+    }
 
 }
