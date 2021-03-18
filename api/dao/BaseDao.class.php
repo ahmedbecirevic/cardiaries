@@ -92,8 +92,8 @@ class BaseDao
         return $this->query_unique("SELECT * FROM ".$this->table." WHERE id = :id", ["id" => $id]);
     }
 
-    public function get_all()
+    public function get_all($offset = 0, $limit = 25)
     {
-        return $this->query("SELECT * FROM ".$this->table, []);   
+        return $this->query("SELECT * FROM ".$this->table." LIMIT $limit OFFSET $offset", []);   
     }
 }
