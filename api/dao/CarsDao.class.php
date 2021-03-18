@@ -8,8 +8,4 @@ class CarsDao extends BaseDao {
         parent::__construct("cars");
     }
 
-    public function get_all_cars() {
-        return $this->query("SELECT * FROM cars", []);
-    }
-
 }

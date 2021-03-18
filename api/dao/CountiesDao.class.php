@@ -7,7 +7,5 @@ class CountiesDao extends BaseDao {
         parent::__construct("counties");
     }
 
-    public function get_all_counties() {
-        return $this->query("SELECT * FROM counties", []);
-    }
+    
 }
