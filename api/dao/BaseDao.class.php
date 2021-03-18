@@ -2,11 +2,20 @@
 
 require_once dirname(__FILE__) . "/../config.php";
 
+/** 
+* Main class for intercating with the database.
+*
+* Every other DAO class should inherit this class.
+*
+* @author Ahmed Becirevic
+*/
+
+
 class BaseDao
 {
     private $table;
     protected $connection;
-
+    
     public function __construct($table)
     {
         $this->table = $table;
@@ -69,13 +78,12 @@ class BaseDao
     {
         $result = $this->query($query, $params);
         return reset($result); // reset - returns first element of array, checks if null etc. 
-
     }
 
     public function add($entity) {
         return $this->insert($this->table, $entity);
     }
-
+    
     public function update($id, $entity) {
         $this->execute_update($this->table, $id, $entity);
     }
@@ -84,7 +92,8 @@ class BaseDao
         return $this->query_unique("SELECT * FROM ".$this->table." WHERE id = :id", ["id" => $id]);
     }
 
-    public function get_all() {
-        {
+    public function get_all()
+    {
         return $this->query("SELECT * FROM ".$this->table, []);   
     }
+}
