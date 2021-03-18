@@ -2,9 +2,9 @@
 
 require_once dirname(__FILE__) . "/BaseDao.class.php";
 
-class CitiesDao extends BaseDao {
+class CountyDao extends BaseDao {
     public function __construct() {
-        parent::__construct("cities");
+        parent::__construct("counties");
     }
 
     
