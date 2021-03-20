@@ -57,8 +57,8 @@ class BaseDao
             $query.= $column." = :".$column.", ";
         }
         
-        $query = mb_substr($query, 0, -2);
-        $query .= " WHERE ${id_column} = :id";
+        $query = substr($query, 0, -2);
+        $query .= " WHERE {$id_column} = :id";
 
         //executing the query
         $stmt= $this->connection->prepare($query);
