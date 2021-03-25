@@ -17,6 +17,8 @@ class UserService extends BaseService
 
     public function register($user)
     {
+        $this->dao->beginTransaction();
+
         if (!isset($user['account'])) throw new Exception("Account field required");
 
         try {
@@ -36,11 +38,13 @@ class UserService extends BaseService
                 "status" => "PENDING",
                 "created_at" => date(Config::DATE_FORMAT),
                 "role" => "USER",
-                "token" => md5(random_bytes(16))
+                "token" => random_bytes(16)
             ]);
             // commit here:
+            $this->dao->commit();
         } catch (\Throwable $th) {
             //rollback on database
+            $this->dao->rollBack();
             throw $th;
         }
 
