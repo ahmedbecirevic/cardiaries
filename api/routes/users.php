@@ -9,3 +9,5 @@ Flight::route('GET /users/confirm/@token', function ($token) {
     Flight::userService()->confirm($token);
     Flight::json(["message" => "Your account has been activated"]);
 });
+
+

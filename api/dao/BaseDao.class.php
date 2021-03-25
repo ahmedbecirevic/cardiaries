@@ -3,19 +3,19 @@
 require_once dirname(__FILE__) . "/../config.php";
 
 /** 
-* Main class for intercating with the database.
-*
-* Every other DAO class should inherit this class.
-*
-* @author Ahmed Becirevic
-*/
+ * Main class for intercating with the database.
+ *
+ * Every other DAO class should inherit this class.
+ *
+ * @author Ahmed Becirevic
+ */
 
 
 class BaseDao
 {
     private $table;
     protected $connection;
-    
+
     public function __construct($table)
     {
         $this->table = $table;
@@ -25,7 +25,26 @@ class BaseDao
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
+    }
 
+    public static function parse_order($order)
+    {
+        switch (mb_substr($order, 0, 1)) {
+            case '-':
+                $order_direction = "ASC";
+                break;
+            case '+':
+                $order_direction = "DESC";
+                break;
+            default:
+                throw new Exception("Invalid order format, character should be either + or -");
+                break;
+        }
+        $order_column = mb_substr($order, 1);
+        // TODO: attempt to prevent sql prevention not working with this method
+        //$this->connection->quote(mb_substr($order, 1));
+
+        return [$order_column, $order_direction];
     }
 
     protected function insert($table, $entity)
@@ -42,7 +61,7 @@ class BaseDao
         }
         $query = substr($query, 0, -2) . ")";
 
-        $stmt= $this->connection->prepare($query);
+        $stmt = $this->connection->prepare($query);
         $stmt->execute($entity);         //prevent sql injection
         $entity["id"] = $this->connection->lastInsertId();
         return $entity;
@@ -52,16 +71,16 @@ class BaseDao
     {
         //generating automated query
         $query = "UPDATE $table SET ";
-        
+
         foreach ($entity as $column => $value) {
-            $query.= $column." = :".$column.", ";
+            $query .= $column . " = :" . $column . ", ";
         }
-        
+
         $query = substr($query, 0, -2);
         $query .= " WHERE {$id_column} = :id";
 
         //executing the query
-        $stmt= $this->connection->prepare($query);
+        $stmt = $this->connection->prepare($query);
         $entity['id'] = $id;
         $stmt->execute($entity);
     }
@@ -74,26 +93,33 @@ class BaseDao
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // PDO::FETCH_ASSOC used to ensure no duplicate elements 
     }
 
-    protected function query_unique($query, $params) 
+    protected function query_unique($query, $params)
     {
         $result = $this->query($query, $params);
         return reset($result); // reset - returns first element of array, checks if null etc. 
     }
 
-    public function add($entity) {
+    public function add($entity)
+    {
         return $this->insert($this->table, $entity);
     }
-    
-    public function update($id, $entity) {
+
+    public function update($id, $entity)
+    {
         $this->execute_update($this->table, $id, $entity);
     }
 
-    public function get_by_id($id) {
-        return $this->query_unique("SELECT * FROM ".$this->table." WHERE id = :id", ["id" => $id]);
+    public function get_by_id($id)
+    {
+        return $this->query_unique("SELECT * FROM " . $this->table . " WHERE id = :id", ["id" => $id]);
     }
 
-    public function get_all($offset = 0, $limit = 25)
+    public function get_all($offset = 0, $limit = 25, $order = "-id")
     {
-        return $this->query("SELECT * FROM ".$this->table." LIMIT $limit OFFSET $offset", []);   
+        list($order_column, $order_direction) = self::parse_order($order);
+
+        return $this->query("SELECT * FROM " . $this->table . "
+                            ORDER BY $order_column $order_direction 
+                            LIMIT $limit OFFSET $offset", []);
     }
 }
