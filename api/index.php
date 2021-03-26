@@ -9,6 +9,17 @@ require_once dirname(__FILE__) . '/services/AccountService.class.php';
 require_once dirname(__FILE__) . '/services/UserService.class.php';
 
 
+//TODO: Post new account and new user stopped working api/accounts api/users
+
+
+Flight::set('flight.log_errors', true);
+
+/* Error handling for APIIII */
+Flight::map('error', function (Exception $ex) {
+    // Flight::halt($ex->getCode(), json_encode(["message" => $ex->getMessage()]));
+    Flight::json(["message" => $ex->getMessage()], $ex->getCode());
+});
+
 
 // Utility function for reading query parameters from URL
 Flight::map('query', function ($name, $default_value = NULL) {

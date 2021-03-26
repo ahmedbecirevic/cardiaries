@@ -17,12 +17,12 @@ class UserService extends BaseService
 
     public function register($user)
     {
-        $this->dao->beginTransaction();
-
         if (!isset($user['account'])) throw new Exception("Account field required");
 
         try {
-            // open transaction here
+            // open transaction here 
+            $this->dao->beginTransaction();
+
             $account = $this->accountDao->add([
                 "name" => $user['account'],
                 "status" => "PENDING",
@@ -30,7 +30,7 @@ class UserService extends BaseService
 
             ]);
 
-            $user = $this->add([
+            $user = parent::add([
                 "account_id" => $account['id'],
                 "username" => $user['username'],
                 "email" => $user['email'],
@@ -38,17 +38,20 @@ class UserService extends BaseService
                 "status" => "PENDING",
                 "created_at" => date(Config::DATE_FORMAT),
                 "role" => "USER",
-                "token" => random_bytes(16)
+                "token" => md5(random_bytes(16))
             ]);
             // commit here:
             $this->dao->commit();
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             //rollback on database
             $this->dao->rollBack();
-            throw $th;
+
+            if (str_contains($e->getMessage(), "users.uq_user_email")) {
+                throw new Exception("Account with same email already exists in the database!", 400, $e);
+            } else {
+                throw $e;
+            }
         }
-
-
 
         // TODO: send email with token to verify user
 
