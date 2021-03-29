@@ -11,9 +11,9 @@
 //     Flight::json(Flight::accountService()->get_accounts($search, $offset, $limit, $order));
 // });
 
-// Flight::route('GET /accounts/@id', function ($id) {
-//     Flight::json(Flight::accountService()->get_by_id($id));
-// });
+Flight::route('GET /accounts', function () {
+    Flight::json(Flight::carService()->get_all());
+});
 
 
 
