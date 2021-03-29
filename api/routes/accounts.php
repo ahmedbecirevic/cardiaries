@@ -7,11 +7,14 @@
  */
 
 /**
- * @OA\Get(path="/accounts",
- *     @OA\Response(response="200", description="List accounts from database")
+ * @OA\Get(path="/accounts", tags={"account"},
+ *    @OA\Parameter(type="integer", in="query", name="offset", default=0, description="Offset for pagination"),
+ *    @OA\Parameter(type="integer", in="query", name="limit", default=25, description="Limit for pagination"),
+ *    @OA\Parameter(type="string", in="query", name="search", description="Search string for accounts. Case insensitive search"),
+ *    @OA\Parameter(type="string", in="query", name="order", default="-id", description="Sorting for return elements.        -column_name ascending order or +column_name for desceding order by column_name"),
+ *    @OA\Response(response="200", description="List accounts from database")
  * )
  */
-
 Flight::route('GET /accounts', function () {
     $offset = Flight::query('offset', 0);
     $limit = Flight::query('limit', 10);
