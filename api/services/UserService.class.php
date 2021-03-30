@@ -3,16 +3,19 @@
 require_once dirname(__FILE__) . '/BaseService.class.php';
 require_once dirname(__FILE__) . '/../dao/AccountDao.class.php';
 require_once dirname(__FILE__) . '/../dao/UserDao.class.php';
+require_once dirname(__FILE__) . '/../clients/SMTPClient.class.php';
 
 
 class UserService extends BaseService
 {
     private $accountDao;
+    private $smtpClient;
 
     public function __construct()
     {
         $this->dao = new UserDao();
         $this->accountDao = new AccountDao();
+        $this->smtpClient = new SMTPClient();
     }
 
     public function register($user)
@@ -22,7 +25,6 @@ class UserService extends BaseService
         try {
             // open transaction here 
             $this->dao->beginTransaction();
-
             $account = $this->accountDao->add([
                 "name" => $user['account'],
                 "status" => "PENDING",
@@ -53,7 +55,9 @@ class UserService extends BaseService
             }
         }
 
-        // TODO: send email with token to verify user
+
+        //send email with token to verify user
+        $this->smtpClient->send_register_user_token($user);
 
         return $user;
     }
