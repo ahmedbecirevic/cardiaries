@@ -20,11 +20,10 @@ Flight::set('flight.log_errors', true);
 /* Error handling for APIIII */
 Flight::map('error', function (Exception $ex) {
     // Flight::halt($ex->getCode(), json_encode(["message" => $ex->getMessage()]));
-    Flight::json(["message" => $ex->getMessage()], $ex->getCode());
+    Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
 });
 
-
-// Utility function for reading query parameters from URL
+/* Utility function for reading query parameters from URL */
 Flight::map('query', function ($name, $default_value = NULL) {
     $request = Flight::request();
     $query_param = @$request->query->getData()[$name];
@@ -32,7 +31,6 @@ Flight::map('query', function ($name, $default_value = NULL) {
 
     return $query_param;
 });
-
 
 /* Register Business Logic Layer services */
 Flight::register('accountService', 'AccountService');
@@ -44,12 +42,10 @@ require_once dirname(__FILE__) . "/routes/accounts.php";
 require_once dirname(__FILE__) . "/routes/users.php";
 require_once dirname(__FILE__) . "/routes/cars.php";
 
-
 Flight::route('GET /swagger', function () {
     $openapi = @\OpenApi\scan(dirname(__FILE__) . "/routes");
     header('Content-Type: application/json');
     echo $openapi->toJson();
 });
-
 
 Flight::start();
