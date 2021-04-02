@@ -25,6 +25,7 @@ class UserService extends BaseService
         try {
             // open transaction here 
             $this->dao->beginTransaction();
+
             $account = $this->accountDao->add([
                 "name" => $user['account'],
                 "status" => "PENDING",
