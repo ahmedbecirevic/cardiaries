@@ -18,6 +18,22 @@ class UserService extends BaseService
         $this->smtpClient = new SMTPClient();
     }
 
+    public function login($user)
+    {
+        $dbUser = $this->dao->get_user_by_email($user['email']);
+
+        if (!isset($dbUser['id'])) throw new Exception("User does not exist :(", 400);
+
+        if ($dbUser['status'] != 'ACTIVE') throw new Exception("Your account is not active!", 400);
+
+        $account = $this->accountDao->get_by_id($dbUser['account_id']);
+        if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+
+        if ($dbUser['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
+
+        return $dbUser;
+    }
+
     public function register($user)
     {
         if (!isset($user['account'])) throw new Exception("Account field required");
@@ -39,7 +55,7 @@ class UserService extends BaseService
                 "first_name" => $user['first_name'],
                 "last_name" => $user['last_name'],
                 "email" => $user['email'],
-                "password" => $user['password'],
+                "password" => md5($user['password']),
                 "status" => "PENDING",
                 "created_at" => date(Config::DATE_FORMAT),
                 "role" => "USER",
