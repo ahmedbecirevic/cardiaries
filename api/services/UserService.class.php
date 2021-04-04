@@ -18,6 +18,18 @@ class UserService extends BaseService
         $this->smtpClient = new SMTPClient();
     }
 
+    public function forgot($user)
+    {
+        $dbUser = $this->dao->get_user_by_email($user['email']);
+
+        if (!isset($dbUser['id'])) throw new Exception("User does not exist :(", 400);
+
+        // genretate new token and save it to the DB
+        $dbUser = $this->update($dbUser['id'], ["token" => md5(random_bytes(16))]);
+
+        $this->smtpClient->send_user_recovery_token($dbUser);
+    }
+
     public function login($user)
     {
         $dbUser = $this->dao->get_user_by_email($user['email']);
