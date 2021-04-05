@@ -5,6 +5,8 @@ require_once dirname(__FILE__) . '/../dao/AccountDao.class.php';
 require_once dirname(__FILE__) . '/../dao/UserDao.class.php';
 require_once dirname(__FILE__) . '/../clients/SMTPClient.class.php';
 
+use \Firebase\JWT\JWT;
+
 
 class UserService extends BaseService
 {
@@ -18,6 +20,7 @@ class UserService extends BaseService
         $this->smtpClient = new SMTPClient();
     }
 
+
     public function reset($user)
     {
         $dbUser = $this->dao->get_user_by_token($user['token']);
@@ -28,6 +31,7 @@ class UserService extends BaseService
 
         $this->dao->update($dbUser['id'], ["password" => md5($user['password']), "token" => NULL]);
     }
+
 
     public function forgot($user)
     {
@@ -43,6 +47,7 @@ class UserService extends BaseService
         $this->smtpClient->send_user_recovery_token($dbUser);
     }
 
+
     public function login($user)
     {
         $dbUser = $this->dao->get_user_by_email($user['email']);
@@ -56,8 +61,11 @@ class UserService extends BaseService
 
         if ($dbUser['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
 
-        return $dbUser;
+        $jwt = JWT::encode(["id" => $dbUser["id"], "aid" => $dbUser["account_id"], "r" => $dbUser["role"]], "JWT SECRET");
+
+        return ["token" => $jwt];
     }
+
 
     public function register($user)
     {
@@ -105,6 +113,7 @@ class UserService extends BaseService
 
         return $user;
     }
+
 
     public function confirm($token)
     {
