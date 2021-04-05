@@ -24,7 +24,7 @@ class UserService extends BaseService
 
         if (!isset($dbUser['id'])) throw new Exception("Invalid token", 400);
 
-        $this->dao->update($dbUser['id'], ["password" => md5($user['password'])]);
+        $this->dao->update($dbUser['id'], ["password" => md5($user['password']), "token" => NULL]);
     }
 
     public function forgot($user)
@@ -108,7 +108,7 @@ class UserService extends BaseService
 
         if (!isset($user['id'])) throw new Exception("Invalid token", 400);
 
-        $this->dao->update($user['id'], ["status" => "ACTIVE"]);
+        $this->dao->update($user['id'], ["status" => "ACTIVE", "token" => NULL]);
         $this->accountDao->update($user['account_id'], ["status" => "ACTIVE"]);
 
         // TODO send email to customer
