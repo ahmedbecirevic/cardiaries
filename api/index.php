@@ -12,9 +12,6 @@ require_once dirname(__FILE__) . '/services/CarService.class.php';
 
 
 
-//TODO: Post new account and new user stopped working api/accounts api/users
-
-
 Flight::set('flight.log_errors', true);
 
 /* Error handling for APIIII */

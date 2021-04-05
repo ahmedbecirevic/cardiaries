@@ -3,7 +3,13 @@
 
 /**
  * @OA\Info(title="CarDiaries API", version="0.1")
- *  @OA\OpenApi(@OA\Server(url="http://localhost/cardiaries/api/", description="Development Environment"))
+ *  @OA\OpenApi(@OA\Server(url="http://localhost/cardiaries/api/", description="Development Environment")),
+ *  @OA\SecurityScheme(
+ *      securityScheme="ApiKeyAuth",
+ *      in="header",
+ *      name="Authentication",
+ *      type="apiKey"
+ * )
  */
 
 
@@ -31,13 +37,21 @@ Flight::route('GET /accounts', function () {
 
 
 /**
- * @OA\Get(path="/accounts/{id}", tags={"account"},
- *    @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", default=1, description="ID of acccount"),
+ * @OA\Get(path="/accounts/{id}", tags={"account"}, security={{"ApiKeyAuth": {}}},
+ *    @OA\Parameter(type="integer", in="path", name="id", default=1, description="ID of acccount"),
  *    @OA\Response(response="200", description="Fetch individual account")
  * )
  */
 Flight::route('GET /accounts/@id', function ($id) {
-    Flight::json(Flight::accountService()->get_by_id($id));
+    $header = getallheaders();
+    $token = @$header['Authentication'];
+
+    try {
+        $decoded = (array)\Firebase\JWT\JWT::decode($token, "JWT SECRET", array('HS256'));
+        Flight::json(Flight::accountService()->get_by_id($id));
+    } catch (\Throwable $th) {
+        Flight::json(["message" => $th->getMessage()], 401);
+    }
 });
 
 
