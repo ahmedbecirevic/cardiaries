@@ -24,6 +24,8 @@ class UserService extends BaseService
 
         if (!isset($dbUser['id'])) throw new Exception("Invalid token", 400);
 
+        if (strtotime(date(Config::DATE_FORMAT)) - strtotime($dbUser['token_created_at']) > 300) throw new Exception("Token has expired!", 400);
+
         $this->dao->update($dbUser['id'], ["password" => md5($user['password']), "token" => NULL]);
     }
 
@@ -33,9 +35,11 @@ class UserService extends BaseService
 
         if (!isset($dbUser['id'])) throw new Exception("User does not exist :(", 400);
 
-        // genretate new token and save it to the DB
-        $dbUser = $this->update($dbUser['id'], ["token" => md5(random_bytes(16))]);
+        if (strtotime(date(Config::DATE_FORMAT)) - strtotime($dbUser['token_created_at']) < 300) throw new Exception("Be patient, token is on its way!", 400);
 
+        // genretate new token and save it to the DB
+        $dbUser = $this->update($dbUser['id'], ["token" => md5(random_bytes(16)), "token_created_at" => date(Config::DATE_FORMAT)]);
+        // send the recovery email    
         $this->smtpClient->send_user_recovery_token($dbUser);
     }
 
