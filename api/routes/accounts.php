@@ -48,7 +48,11 @@ Flight::route('GET /accounts/@id', function ($id) {
 
     try {
         $decoded = (array)\Firebase\JWT\JWT::decode($token, "JWT SECRET", array('HS256'));
-        Flight::json(Flight::accountService()->get_by_id($id));
+        if ($decoded['aid'] == $id) {
+            Flight::json(Flight::accountService()->get_by_id($id));
+        } else {
+            Flight::json(["message" => "Account not for you!"], 403);
+        }
     } catch (\Throwable $th) {
         Flight::json(["message" => $th->getMessage()], 401);
     }
