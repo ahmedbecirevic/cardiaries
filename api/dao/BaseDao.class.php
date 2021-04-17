@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . "/../config.php";
-
 /** 
  * Main class for intercating with the database.
  *
@@ -9,8 +8,6 @@ require_once dirname(__FILE__) . "/../config.php";
  *
  * @author Ahmed Becirevic
  */
-
-
 class BaseDao
 {
     private $table;
