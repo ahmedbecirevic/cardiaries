@@ -1,6 +1,4 @@
 <?php
-
-
 // Flight::route('GET /cars', function () {
 //     $offset = Flight::query('offset', 0);
 //     $limit = Flight::query('limit', 10);
@@ -14,8 +12,6 @@
 Flight::route('GET /cars', function () {
     Flight::json(Flight::carService()->get_all());
 });
-
-
 
 Flight::route('POST /cars', function () {
     $data = Flight::request()->data->getData();

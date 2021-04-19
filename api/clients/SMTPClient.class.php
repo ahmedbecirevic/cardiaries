@@ -12,7 +12,6 @@ class SMTPClient
         $transport = (new Swift_SmtpTransport(Config::SMTP_HOST, Config::SMTP_PORT, 'tls'))
             ->setUsername(Config::SMTP_USER)
             ->setPassword(Config::SMTP_PASSWORD);
-
         $this->mailer = new Swift_Mailer($transport);
     }
 
@@ -22,7 +21,6 @@ class SMTPClient
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
             ->setBody('Here is the confirmation link: http://localhost/cardiaries/api/confirm/' . $user['token']);
-
         $this->mailer->send($message);
     }
 
@@ -32,7 +30,6 @@ class SMTPClient
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
             ->setBody('Here is the recovery token: ' . $user['token']);
-
         $this->mailer->send($message);
     }
 
@@ -42,7 +39,6 @@ class SMTPClient
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
             ->setBody('Your account has been confirmed. Enjoy the full access to the application!');
-
         $this->mailer->send($message);
     }
 }

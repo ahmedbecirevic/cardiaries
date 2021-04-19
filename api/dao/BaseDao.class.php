@@ -41,7 +41,7 @@ class BaseDao
         $this->connection->commit();
     }
 
-    public static function parse_order($order)
+    public function parse_order($order)
     {
         switch (mb_substr($order, 0, 1)) {
             case '-':
@@ -54,10 +54,7 @@ class BaseDao
                 throw new Exception("Invalid order format, character should be either + or -");
                 break;
         }
-        $order_column = mb_substr($order, 1);
-        // TODO: attempt to prevent sql prevention not working with this method
-        //$this->connection->quote(mb_substr($order, 1));
-
+        $order_column = trim($this->connection->quote(substr($order, 1)), "'");
         return [$order_column, $order_direction];
     }
 

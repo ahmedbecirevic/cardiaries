@@ -2,9 +2,7 @@
 
 class BaseService
 {
-
     protected $dao;
-
 
     public function get_by_id($id)
     {
@@ -16,7 +14,6 @@ class BaseService
     }
     public function update($id, $data)
     {
-
         $this->dao->update($id, $data);
         return $this->dao->get_by_id($id);
     }

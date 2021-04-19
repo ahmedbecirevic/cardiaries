@@ -75,7 +75,6 @@ class UserService extends BaseService
                 "created_at" => date(Config::DATE_FORMAT)
 
             ]);
-
             $user = parent::add([
                 "account_id" => $account['id'],
                 "username" => $user['username'],
