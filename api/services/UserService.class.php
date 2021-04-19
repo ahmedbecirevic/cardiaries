@@ -100,11 +100,8 @@ class UserService extends BaseService
                 throw $e;
             }
         }
-
-
         //send email with token to verify user
         $this->smtpClient->send_register_user_token($user);
-
         return $user;
     }
 
@@ -116,7 +113,7 @@ class UserService extends BaseService
 
         $this->dao->update($user['id'], ["status" => "ACTIVE", "token" => NULL]);
         $this->accountDao->update($user['account_id'], ["status" => "ACTIVE"]);
-
-        // TODO send email to customer
+        // send email to customer that their account is now confirmed
+        $this->smtpClient->send_user_confirmed_notice($user);
     }
 }

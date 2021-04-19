@@ -18,7 +18,6 @@ class SMTPClient
 
     public function send_register_user_token($user)
     {
-
         $message = (new Swift_Message('Confirm your account'))
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
@@ -33,6 +32,16 @@ class SMTPClient
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
             ->setBody('Here is the recovery token: ' . $user['token']);
+
+        $this->mailer->send($message);
+    }
+
+    public function send_user_confirmed_notice($user)
+    {
+        $message = (new Swift_Message('Account confirmation succesfull!'))
+            ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
+            ->setTo($user['email'])
+            ->setBody('Your account has been confirmed. You have full access to the application!');
 
         $this->mailer->send($message);
     }
