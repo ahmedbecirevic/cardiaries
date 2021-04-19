@@ -21,7 +21,7 @@ class SMTPClient
         $message = (new Swift_Message('Confirm your account'))
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
-            ->setBody('Here is the confirmation link: http://localhost/cardiaries/api/users/confirm/' . $user['token']);
+            ->setBody('Here is the confirmation link: http://localhost/cardiaries/api/confirm/' . $user['token']);
 
         $this->mailer->send($message);
     }
@@ -41,7 +41,7 @@ class SMTPClient
         $message = (new Swift_Message('Account confirmation succesfull!'))
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
-            ->setBody('Your account has been confirmed. You have full access to the application!');
+            ->setBody('Your account has been confirmed. Enjoy the full access to the application!');
 
         $this->mailer->send($message);
     }
