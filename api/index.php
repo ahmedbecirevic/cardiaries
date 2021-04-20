@@ -29,6 +29,12 @@ Flight::map('query', function ($name, $default_value = NULL) {
     return $query_param;
 });
 
+Flight::map('header', function ($name) {
+    $headers = getallheaders();
+    $token = @$headers[$name];
+    return $token;
+});
+
 Flight::route('GET /swagger', function () {
     $openapi = @\OpenApi\scan(dirname(__FILE__) . "/routes");
     header('Content-Type: application/json');
@@ -49,6 +55,5 @@ require_once dirname(__FILE__) . "/routes/middleware.php";
 require_once dirname(__FILE__) . "/routes/accounts.php";
 require_once dirname(__FILE__) . "/routes/users.php";
 require_once dirname(__FILE__) . "/routes/cars.php";
-
 
 Flight::start();
