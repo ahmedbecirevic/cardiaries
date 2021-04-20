@@ -56,7 +56,7 @@ class UserService extends BaseService
 
         if ($dbUser['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
 
-        $jwt = JWT::encode(["id" => $dbUser["id"], "aid" => $dbUser["account_id"], "r" => $dbUser["role"]], "JWT SECRET");
+        $jwt = JWT::encode(["id" => $dbUser["id"], "aid" => $dbUser["account_id"], "r" => $dbUser["role"]], Config::JWT_SECRET);
 
         return ["token" => $jwt];
     }
