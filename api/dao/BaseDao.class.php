@@ -127,8 +127,7 @@ class BaseDao
 
     public function get_all($offset = 0, $limit = 25, $order = "-id")
     {
-        list($order_column, $order_direction) = self::parse_order($order);
-
+        list($order_column, $order_direction) = $this->parse_order($order);
         return $this->query("SELECT * FROM " . $this->table . "
                             ORDER BY $order_column $order_direction 
                             LIMIT $limit OFFSET $offset", []);
