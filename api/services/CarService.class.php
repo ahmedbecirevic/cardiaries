@@ -12,4 +12,9 @@ class CarService extends BaseService
     {
         $this->dao = new CarDao();
     }
+
+    public function get_car_by_vin($vin)
+    {
+        return $this->dao->get_car_by_vin($vin);
+    }
 }
