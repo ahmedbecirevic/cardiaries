@@ -1,17 +1,6 @@
 <?php
 
 /**
- * @OA\Info(title="CarDiaries API", version="0.1")
- *  @OA\OpenApi(@OA\Server(url="http://localhost/cardiaries/api/", description="Development Environment")),
- *  @OA\SecurityScheme(
- *      securityScheme="ApiKeyAuth",
- *      in="header",
- *      name="Authentication",
- *      type="apiKey"
- * )
- */
-
-/**
  * @OA\Get(path="/cars/{vin}", tags={"cars"}, security={{"ApiKeyAuth": {}}},
  *    @OA\Parameter(type="string", in="path", name="vin", default=1, description="VIN of the car"),
  *    @OA\Response(response="200", description="Fetch individual car")
