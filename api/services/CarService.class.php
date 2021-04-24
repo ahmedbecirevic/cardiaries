@@ -29,7 +29,11 @@ class CarService extends BaseService
                 "user_id" => 61
             ]);
         } catch (Exception $e) {
-            throw $e;
+            if (str_contains($e->getMessage(), 'cars.uq_vin')) {
+                throw new Exception("Car with the same VIN already exists!", 400, $e);
+            } else {
+                throw $e;
+            }
         }
         return $car;
     }
