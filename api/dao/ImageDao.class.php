@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . "/BaseDao.class.php";
 
-class ImagesDao extends BaseDao
+class ImageDao extends BaseDao
 {
     public function __construct()
     {
