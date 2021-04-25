@@ -26,7 +26,6 @@ Flight::route('POST /register', function () {
     Flight::json(["message" => "Conformation email has been sent. Please confirm your account!"]);
 });
 
-
 /**
  * @OA\Get(path="/confirm/{token}", tags={"users"},
  *    @OA\Parameter(type="string", in="path", name="token", default=123, description="Temporary token for activating account!"),
@@ -34,11 +33,10 @@ Flight::route('POST /register', function () {
  * )
  */
 Flight::route('GET /confirm/@token', function ($token) {
-    Flight::userService()->confirm($token);
-    Flight::json(["message" => "Your account has been activated!"]);
+    $user = Flight::userService()->confirm($token);
+    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
+    Flight::json(["token" => $jwt]);
 });
-
-
 
 /**
  * 
@@ -57,10 +55,10 @@ Flight::route('GET /confirm/@token', function ($token) {
  * 
  */
 Flight::route('POST /login', function () {
-    $data = Flight::request()->data->getData();
-    Flight::json(Flight::userService()->login($data));
+    $user = Flight::userService()->login(Flight::request()->data->getData());
+    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
+    Flight::json(["token" => $jwt]);
 });
-
 
 /**
  * 
@@ -83,7 +81,6 @@ Flight::route('POST /forgot', function () {
     Flight::json(["message" => "Recovery email has been sent!"]);
 });
 
-
 /**
  * 
  * @OA\Post(path="/reset", tags={"users"}, description="Reset user's password using recovery token",
@@ -101,7 +98,7 @@ Flight::route('POST /forgot', function () {
  * 
  */
 Flight::route('POST /reset', function () {
-    $data = Flight::request()->data->getData();
-    Flight::userService()->reset($data);
-    Flight::json(["message" => "Your password has been changed!"]);
+    $user = Flight::userService()->reset(Flight::request()->data->getData());
+    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
+    Flight::json(["token" => $jwt]);
 });

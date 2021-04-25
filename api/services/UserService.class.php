@@ -27,6 +27,8 @@ class UserService extends BaseService
         if (strtotime(date(Config::DATE_FORMAT)) - strtotime($dbUser['token_created_at']) > 300) throw new Exception("Token has expired!", 400);
 
         $this->dao->update($dbUser['id'], ["password" => md5($user['password']), "token" => NULL]);
+
+        return $dbUser;
     }
 
     public function forgot($user)
@@ -56,9 +58,7 @@ class UserService extends BaseService
 
         if ($dbUser['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
 
-        $jwt = JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $dbUser["id"], "aid" => $dbUser["account_id"], "r" => $dbUser["role"]], Config::JWT_SECRET);
-
-        return ["token" => $jwt];
+        return $dbUser;
     }
 
     public function register($user)
@@ -113,6 +113,7 @@ class UserService extends BaseService
         $this->dao->update($user['id'], ["status" => "ACTIVE", "token" => NULL]);
         $this->accountDao->update($user['account_id'], ["status" => "ACTIVE"]);
         // send email to customer that their account is now confirmed
-        $this->smtpClient->send_user_confirmed_notice($user);
+        //$this->smtpClient->send_user_confirmed_notice($user);
+        return $user;
     }
 }
