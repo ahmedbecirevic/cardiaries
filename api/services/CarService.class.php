@@ -14,6 +14,11 @@ class CarService extends BaseService
         return $this->dao->get_car_by_vin($vin);
     }
 
+    public function get_cars_by_id($id)
+    {
+        return $this->dao->get_cars_by_id($id);
+    }
+
     public function add($car)
     {
         try {
@@ -32,7 +37,7 @@ class CarService extends BaseService
             if (str_contains($e->getMessage(), 'cars.uq_vin')) {
                 throw new Exception("Car with the same VIN already exists!", 400, $e);
             } else {
-                throw $e;
+                throw new Exception($e->getMessage());
             }
         }
         return $car;

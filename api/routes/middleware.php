@@ -27,6 +27,7 @@ Flight::route('/accounts/*', function () {
 
 Flight::route('/cars/*', function () {
     try {
+        //TODO: add authentification only for POST /cars, GET /cars/@vin can be accessed by everyone
         // Try to decode using the flight function in index.php
         $user = (array)\Firebase\JWT\JWT::decode(Flight::header("Authentication"), Config::JWT_SECRET, ["HS256"]);
         Flight::set('user', $user);
