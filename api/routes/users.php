@@ -33,9 +33,7 @@ Flight::route('POST /register', function () {
  * )
  */
 Flight::route('GET /confirm/@token', function ($token) {
-    $user = Flight::userService()->confirm($token);
-    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
-    Flight::json(["token" => $jwt]);
+    Flight::json(Flight::jwt(Flight::userService()->confirm($token)));
 });
 
 /**
@@ -55,9 +53,7 @@ Flight::route('GET /confirm/@token', function ($token) {
  * 
  */
 Flight::route('POST /login', function () {
-    $user = Flight::userService()->login(Flight::request()->data->getData());
-    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
-    Flight::json(["token" => $jwt]);
+    Flight::json(Flight::jwt(Flight::userService()->login(Flight::request()->data->getData())));
 });
 
 /**
@@ -98,7 +94,5 @@ Flight::route('POST /forgot', function () {
  * 
  */
 Flight::route('POST /reset', function () {
-    $user = Flight::userService()->reset(Flight::request()->data->getData());
-    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
-    Flight::json(["token" => $jwt]);
+    Flight::json(Flight::jwt(Flight::userService()->reset(Flight::request()->data->getData())));
 });

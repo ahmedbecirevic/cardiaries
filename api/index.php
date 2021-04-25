@@ -13,10 +13,10 @@ require_once dirname(__FILE__) . '/services/CarService.class.php';
 Flight::set('flight.log_errors', true);
 
 /* Error handling for APIIII */
-Flight::map('error', function (Exception $ex) {
-    // Flight::halt($ex->getCode(), json_encode(["message" => $ex->getMessage()]));
-    Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
-});
+// Flight::map('error', function (Exception $ex) {
+//     // Flight::halt($ex->getCode(), json_encode(["message" => $ex->getMessage()]));
+//     Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
+// });
 
 /* Utility function for reading query parameters from URL */
 Flight::map('query', function ($name, $default_value = NULL) {
@@ -31,6 +31,11 @@ Flight::map('header', function ($name) {
     $headers = getallheaders();
     $token = @$headers[$name];
     return $token;
+});
+
+Flight::map('jwt', function ($user) {
+    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["account_id"], "r" => $user["role"]], Config::JWT_SECRET);
+    return ["token" => $jwt];
 });
 
 Flight::route('GET /swagger', function () {
