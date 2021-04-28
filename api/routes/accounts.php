@@ -3,7 +3,10 @@
 
 /**
  * @OA\Info(title="CarDiaries API", version="0.1")
- *  @OA\OpenApi(@OA\Server(url="http://localhost/cardiaries/api/", description="Development Environment")),
+ *  @OA\OpenApi(
+ *      @OA\Server(url="http://localhost/cardiaries/api/", description="Development Environment"),
+ *      @OA\Server(url="https://cardiaries.me/api/", description="Production Environment" )
+ * ),
  *  @OA\SecurityScheme(
  *      securityScheme="ApiKeyAuth",
  *      in="header",
