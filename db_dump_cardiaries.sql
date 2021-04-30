@@ -26,7 +26,7 @@ CREATE TABLE `accounts` (
   `status` varchar(16) COLLATE utf8_bin NOT NULL DEFAULT 'ACTIVE',
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5094 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5101 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `cars` */
 
@@ -35,18 +35,19 @@ DROP TABLE IF EXISTS `cars`;
 CREATE TABLE `cars` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `model_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `year_of_production` year NOT NULL,
-  `mileage` double NOT NULL,
+  `year_of_production` int NOT NULL,
+  `mileage` int NOT NULL,
   `num_of_doors` int NOT NULL,
-  `manufacturer_id` int unsigned NOT NULL,
-  `engine_power_kw` double NOT NULL,
+  `engine_power_kw` int NOT NULL,
   `fuel` varchar(128) COLLATE utf8_bin NOT NULL,
   `vin` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `manufacturer` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `user_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_vin` (`vin`),
-  KEY `cars_manu_fk` (`manufacturer_id`),
-  CONSTRAINT `cars_manu_fk` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturers` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  KEY `cars_users_fk` (`user_id`),
+  CONSTRAINT `cars_users_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `cities` */
 
@@ -101,16 +102,16 @@ DROP TABLE IF EXISTS `posts`;
 
 CREATE TABLE `posts` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `body` text COLLATE utf8_bin NOT NULL,
-  `created_at` datetime NOT NULL,
+  `body` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `created_at` timestamp NOT NULL,
   `user_id` int unsigned NOT NULL,
-  `image_id` int unsigned NOT NULL,
+  `car_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `users_posts_fk` (`user_id`),
-  KEY `images_posts_fk` (`image_id`),
-  CONSTRAINT `images_posts_fk` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
+  KEY `cars_posts_fk` (`car_id`),
+  CONSTRAINT `cars_posts_fk` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`),
   CONSTRAINT `users_posts_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `users` */
 
@@ -134,7 +135,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `uq_username` (`username`),
   KEY `account_user_fk` (`account_id`),
   CONSTRAINT `account_user_fk` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
