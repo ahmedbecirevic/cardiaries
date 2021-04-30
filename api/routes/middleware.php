@@ -5,8 +5,7 @@ Flight::route('/user/*', function () {
     try {
         // Try to decode using the flight function in index.php
         $user = (array)\Firebase\JWT\JWT::decode(Flight::header("Authentication"), Config::JWT_SECRET, ["HS256"]);
-        if (Flight::request()->method)
-            Flight::set('user', $user);
+        Flight::set('user', $user);
         return TRUE;
     } catch (\Exception $th) {
         Flight::json(["message" => $th->getMessage()], 401);
