@@ -15,7 +15,7 @@ Flight::route('GET /user/post/@id', function ($id) {
  *    @OA\Response(response="200", description="Fetch user's cars")
  * )
  */
-Flight::route('GET user/posts', function () {
+Flight::route('GET /user/posts', function () {
     Flight::json(Flight::postService()->get_posts_by_id(Flight::get('user')['id']));
 });
 

@@ -52,6 +52,8 @@ Flight::route('GET /', function () {
 Flight::register('accountService', 'AccountService');
 Flight::register('userService', 'UserService');
 Flight::register('carService', 'CarService');
+Flight::register('postService', 'PostService');
+
 
 /*Include all routes */
 require_once dirname(__FILE__) . "/routes/middleware.php";
