@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @OA\Get(path="/cars", tags={"cars"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Get(path="/user/cars", tags={"cars", "users"}, security={{"ApiKeyAuth": {}}},
  *    @OA\Response(response="200", description="Fetch user's cars")
  * )
  */
-Flight::route('GET /cars', function () {
+Flight::route('GET /user/cars', function () {
     Flight::json(Flight::carService()->get_cars_by_id(Flight::get('user')['id']));
 });
 

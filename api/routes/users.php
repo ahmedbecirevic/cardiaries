@@ -96,3 +96,23 @@ Flight::route('POST /forgot', function () {
 Flight::route('POST /reset', function () {
     Flight::json(Flight::jwt(Flight::userService()->reset(Flight::request()->data->getData())));
 });
+
+
+/**
+ * @OA\Post( path="/upload", tags={"users"},
+ *   description="Upload your image",
+ *   @OA\RequestBody(required=true, description="Upload your image",
+ *      @OA\MediaType(mediaType="multipart/form-data",
+ *          @OA\Schema(
+ *               @OA\Property(property="image", type="string", format="binary"),
+ *          )
+ *      )
+ *   ),
+ *   @OA\Response(response="200", description="Message that the image was uploaded successfuly")
+ * )
+ */
+Flight::route('POST /upload', function () {
+    $request = Flight::request()->files['image'];
+    $uploadDirectory = 'C:/Bitnami/wampstack-8.0.2-1/apache2/htdocs/cardiaries/api/files/';
+    move_uploaded_file($request['tmp_name'], $uploadDirectory . $request['name']);
+});

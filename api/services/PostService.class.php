@@ -11,7 +11,7 @@ class PostService extends BaseService
 
     public function __construct()
     {
-        $this->dao = new PostsDao();
+        $this->dao = new PostDao();
         $this->imageDao = new ImageDao();
     }
 
@@ -19,6 +19,12 @@ class PostService extends BaseService
     {
         if (!isset($post['body'])) throw new Exception("Post body is missing!!!");
         $post['created_at'] = date(Config::DATE_FORMAT);
+        $post['user_id'] = Flight::get('user')['id'];
         return parent::add($post);
+    }
+
+    public function get_posts_by_id($id)
+    {
+        return $this->dao->get_posts_by_id($id);
     }
 }
