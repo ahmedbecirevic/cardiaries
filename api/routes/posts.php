@@ -21,14 +21,14 @@ Flight::route('GET /user/posts', function () {
 
 /**
  * 
- * @OA\Post(path="/post", tags={"posts"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Post(path="/posts", tags={"posts"}, security={{"ApiKeyAuth": {}}},
  *      @OA\RequestBody(
  *          description="Post fields",
  *          required=true,
  *          @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
  *    				@OA\Property(property="body", required="true", type="string", example="Writing about my car", description="Body of the post"),
- * 
+ *    				@OA\Property(property="vin", required="true", type="string", example="4Y1SL65848Z411439", description="VIN of the car that you are posting about")
  *              )
  *          )
  *      ),
@@ -36,7 +36,7 @@ Flight::route('GET /user/posts', function () {
  * )
  * 
  */
-Flight::route('POST /post', function () {
+Flight::route('POST /posts', function () {
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::postService()->add($data));
+    Flight::json(Flight::postService()->addPost($data, Flight::get('user')['id']));
 });

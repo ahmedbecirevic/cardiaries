@@ -4,19 +4,19 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
-
 require_once dirname(__FILE__) . '/services/AccountService.class.php';
 require_once dirname(__FILE__) . '/services/UserService.class.php';
 require_once dirname(__FILE__) . '/services/CarService.class.php';
+require_once dirname(__FILE__) . '/services/PostService.class.php';
 
 
 Flight::set('flight.log_errors', true);
 
 /* Error handling for APIIII */
-// Flight::map('error', function (Exception $ex) {
-//     // Flight::halt($ex->getCode(), json_encode(["message" => $ex->getMessage()]));
-//     Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
-// });
+Flight::map('error', function (Exception $ex) {
+    // Flight::halt($ex->getCode(), json_encode(["message" => $ex->getMessage()]));
+    Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
+});
 
 /* Utility function for reading query parameters from URL */
 Flight::map('query', function ($name, $default_value = NULL) {

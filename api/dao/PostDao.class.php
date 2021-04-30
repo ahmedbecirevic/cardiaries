@@ -11,6 +11,13 @@ class PostDao extends BaseDao
 
     public function get_posts_by_id($id)
     {
-        return $this->query("SELECT * FROM posts WHERE user_id = :id", ["id" => $id]);
+        return $this->query("SELECT * FROM posts 
+                             WHERE user_id = :id", ["id" => $id]);
+    }
+
+    public function get_posts_by_car_id($id)
+    {
+        return $this->query("SELECT * FROM posts 
+                             WHERE car_id = :id", ["id" => $id]);
     }
 }
