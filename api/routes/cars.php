@@ -1,8 +1,26 @@
 <?php
 
 /**
+ * @OA\Get(path="/car/{vin}", tags={"cars"}, 
+ *    @OA\Parameter(type="string", in="path", name="vin", default=1, description="VIN of the car"),
+ *    @OA\Response(response="200", description="Fetch individual car, globally accessible")
+ * )
+ */
+Flight::route('GET /car/@vin', function ($vin) {
+    // $car = Flight::carService()->get_car_by_vin($vin);
+    // if (Flight::get('user')['id'] != $car['user_id']) {
+    //     Flight::json([]);
+    // } else {
+    //     Flight::json($car);
+    // }
+    $car = Flight::carService()->get_car_by_vin($vin);
+    unset($car['user_id']);
+    Flight::json($car);
+});
+
+/**
  * @OA\Get(path="/user/cars", tags={"cars", "users"}, security={{"ApiKeyAuth": {}}},
- *    @OA\Response(response="200", description="Fetch user's cars")
+ *    @OA\Response(response="200", description="Fetch logged in user's cars")
  * )
  */
 Flight::route('GET /user/cars', function () {

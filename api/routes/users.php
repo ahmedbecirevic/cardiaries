@@ -117,19 +117,13 @@ Flight::route('POST /upload', function () {
     move_uploaded_file($request['tmp_name'], $uploadDirectory . $request['name']);
 });
 
-/**
- * @OA\Get(path="/car/{vin}", tags={"users"}, 
- *    @OA\Parameter(type="string", in="path", name="vin", default=1, description="VIN of the car"),
- *    @OA\Response(response="200", description="Fetch individual car")
- * )
- */
-Flight::route('GET /car/@vin', function ($vin) {
-    // $car = Flight::carService()->get_car_by_vin($vin);
-    // if (Flight::get('user')['id'] != $car['user_id']) {
-    //     Flight::json([]);
-    // } else {
-    //     Flight::json($car);
-    // }
-    $car = Flight::carService()->get_car_by_vin($vin);
-    Flight::json(Flight::postService()->get_posts_by_car_id($car['id']));
-});
+// /**
+//  * @OA\Get(path="/user/car/posts", tags={"cars", "users", "posts"}, security={{"ApiKeyAuth": {}}},
+//  *    @OA\Parameter(type="string", in="path", name="vin", default=1, description="VIN of the car"),
+//  *    @OA\Response(response="200", description="Fetch user's car posts")
+//  * )
+//  */
+// Flight::route('GET /user/car/posts', function () {
+//     Flight::json(Flight::postService()->get_posts_by_car_id($car['id']));
+//     Flight::json(Flight::carService()->get_cars_by_id(Flight::get('user')['id']));
+// });

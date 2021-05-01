@@ -2,7 +2,7 @@
 
 /**
  * @OA\Get(path="/user/post/{id}", tags={"posts"}, 
- *    @OA\Parameter(type="integer", in="path", name="id", default=1, description="ID of user"),
+ *    @OA\Parameter(type="integer", in="path", name="id", default=1, description="ID of post"),
  *    @OA\Response(response="200", description="Fetch individual user")
  * )
  */
