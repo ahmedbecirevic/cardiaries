@@ -41,6 +41,14 @@ class Config
     {
         return Config::get_env("SMTP_PASSWORD", NULL);
     }
+    public static function SPACES_KEY()
+    {
+        return Config::get_env("SPACES_KEY", NULL);
+    }
+    public static function SPACES_SECRET()
+    {
+        return Config::get_env("SPACES_SECRET", NULL);
+    }
 
     public static function get_env($name, $default)
     {
