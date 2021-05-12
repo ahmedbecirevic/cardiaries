@@ -3,6 +3,8 @@ require_once dirname(__FILE__) . '/BaseService.class.php';
 require_once dirname(__FILE__) . '/../dao/AccountDao.class.php';
 require_once dirname(__FILE__) . '/../dao/UserDao.class.php';
 require_once dirname(__FILE__) . '/../clients/SMTPClient.class.php';
+require_once dirname(__FILE__) . '/../clients/DOSpacesClient.class.php';
+
 
 use \Firebase\JWT\JWT;
 
@@ -10,12 +12,14 @@ class UserService extends BaseService
 {
     private $accountDao;
     private $smtpClient;
+    private $DOSpacesClient;
 
     public function __construct()
     {
         $this->dao = new UserDao();
         $this->accountDao = new AccountDao();
         $this->smtpClient = new SMTPClient();
+        $this->DOSpacesClient = new DOSpacesClient;
     }
 
     public function reset($user)
@@ -115,5 +119,9 @@ class UserService extends BaseService
         // send email to customer that their account is now confirmed
         //$this->smtpClient->send_user_confirmed_notice($user);
         return $user;
+    }
+
+    public function uploadImage ($imagePath) {
+        $this->DOSpacesClient->uploadImage($imagePath);
     }
 }
