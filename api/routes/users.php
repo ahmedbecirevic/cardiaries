@@ -113,8 +113,9 @@ Flight::route('POST /reset', function () {
  */
 Flight::route('POST /upload', function () {
     $request = Flight::request()->files['image'];
-    $uploadDirectory = 'C:/Bitnami/wampstack-8.0.2-1/apache2/htdocs/cardiaries/api/files/';
-    move_uploaded_file($request['tmp_name'], $uploadDirectory . $request['name']);
+    // $uploadDirectory = 'C:/Bitnami/wampstack-8.0.2-1/apache2/htdocs/cardiaries/api/files/';
+    // move_uploaded_file($request['tmp_name'], $uploadDirectory . $request['name']);
+    Flight::userService()->uploadImage($request['tmp_name']);
 });
 
 // /**
