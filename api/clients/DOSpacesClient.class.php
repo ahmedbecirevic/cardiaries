@@ -12,11 +12,11 @@ class DOSpacesClient
     {
         $this->client = new Aws\S3\S3Client([
             'version' => 'latest',
-            'region'  => 'eu-central-1',
-            'endpoint' => 'fra1.digitaloceanspaces.com',
+            'region'  => 'fra1',
+            'endpoint' => 'https://fra1.digitaloceanspaces.com',
             'credentials' => [
                 'key'    => Config::SPACES_KEY(),
-                'secret' => Config::SPACES_SECRET(),
+                'secret' => Config::SPACES_SECRET()
             ],
         ]);
     }
@@ -25,12 +25,9 @@ class DOSpacesClient
     {
         $this->client->putObject([
             'Bucket' => 'cardiaries-space',
-            'Key'    => $imagePath
-            // 'Body'   => 'The contents of the file.',
-            // 'ACL'    => 'private',
-            // 'Metadata'   => array(
-            //     'x-amz-meta-my-key' => 'your-value'
-            // )
+            'Key'    => $imagePath.'photo',
+            'Body'   => $imagePath,
+            'ACL'    => 'public-read'
         ]);
     }
 }
