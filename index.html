@@ -46,8 +46,7 @@
                 </a>
               
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="login.html" onclick="">Log Out</a>
-
+                  <button class="dropdown-item" onclick="doLogout()">Log Out</button>
                 </div>
             </div>
         </nav>
@@ -161,6 +160,13 @@
                     $('body').show()
                 }
             });
+        </script>
+
+        <script type="text/javascript">
+            function doLogout() { 
+                window.localStorage.clear()
+                window.location = 'login.html'
+            }
         </script>
 
         <!-- include single page app js -->
