@@ -10,7 +10,7 @@
         <link href="assets/css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
-    <body class="bg-primary">
+    <body style="display:none" class="bg-primary">
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
                 <main>
@@ -65,8 +65,16 @@
         <script src="assets/js/scripts.js"></script>
 
         <script type="text/javascript">
-            function doLogin () {
+            $( function() {
+                if ( window.localStorage.getItem("token") ) {
+                    window.location = "index.html"
+                } else {
+                    $('body').show()
+                }
+            }) 
 
+
+            function doLogin () {
                 let loginInfo = {
                     "email" : $("#email").val(),
                     "password" : $("#password").val()
@@ -74,8 +82,8 @@
                 $("#login-link").prop('disabled', true)
                 $.post( "http://localhost/cardiaries/api/login", loginInfo )
                     .done( function( data ) {
-                        window.location = "index.html"
-
+                            window.localStorage.setItem("token", data.token)
+                            window.location = "index.html"
                     })
                     .fail( function (error) {
                         $("#login-link").prop('disabled', false)
