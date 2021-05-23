@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Page Title - SB Admin</title>
+        <title>CarDiaries Login</title>
         <link href="assets/css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     </head>
@@ -23,21 +23,16 @@
                                         <form>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                                <input class="form-control py-4" id="inputEmailAddress" type="email" placeholder="Enter email address" />
+                                                <input id="email" class="form-control py-4" id="inputEmailAddress" type="email" placeholder="Enter email address" />
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputPassword">Password</label>
-                                                <input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" />
+                                                <input id="password" class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" />
                                             </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" />
-                                                    <label class="custom-control-label" for="rememberPasswordCheck">Remember password</label>
-                                                </div>
-                                            </div>
+                                         
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="pages/password.html">Forgot Password?</a>
-                                                <a class="btn btn-primary" href="index.html">Login</a>
+                                                <button id="login-link" class="btn btn-primary" onclick="doLogin()">Login</button>
                                             </div>
                                         </form>
                                     </div>
@@ -65,8 +60,30 @@
                 </footer>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="assets/js/scripts.js"></script>
+
+        <script type="text/javascript">
+            function doLogin () {
+
+                let loginInfo = {
+                    "email" : $("#email").val(),
+                    "password" : $("#password").val()
+                }
+                $("#login-link").prop('disabled', true)
+                $.post( "http://localhost/cardiaries/api/login", loginInfo )
+                    .done( function( data ) {
+                        window.location = "index.html"
+
+                    })
+                    .fail( function (error) {
+                        $("#login-link").prop('disabled', false)
+                        alert( error.responseJSON.message )
+                    })
+
+                // console.log(loginInfo)
+            };
+        </script>
     </body>
 </html>
