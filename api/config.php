@@ -35,19 +35,19 @@ class Config
     }
     public static function SMTP_USER()
     {
-        return Config::get_env("SMTP_USER", NULL);
+        return Config::get_env("SMTP_USER", "postmaster@sandbox236d84405d3145cfa817be35c06cc2c4.mailgun.org");
     }
     public static function SMTP_PASSWORD()
     {
-        return Config::get_env("SMTP_PASSWORD", NULL);
+        return Config::get_env("SMTP_PASSWORD", "c83c5f07b1e53dbec7efd0d04f9b9391-fa6e84b7-27e16869");
     }
     public static function SPACES_KEY()
     {
-        return Config::get_env("SPACES_KEY", NULL);
+        return Config::get_env("SPACES_KEY", "ZE2E6JG2P3NDIQFFFZBP");
     }
     public static function SPACES_SECRET()
     {
-        return Config::get_env("SPACES_SECRET", NULL);
+        return Config::get_env("SPACES_SECRET", "EbGbuDhf7pYFJhFqeMvCJL1m0mZZvtkleBnKswZHcEU");
     }
 
     public static function get_env($name, $default)
