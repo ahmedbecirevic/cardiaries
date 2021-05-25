@@ -57,8 +57,8 @@ class UserService extends BaseService
 
         if ($dbUser['status'] != 'ACTIVE') throw new Exception("Your account is not active!", 400);
 
-        $account = $this->accountDao->get_by_id($dbUser['account_id']);
-        if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+        // $account = $this->accountDao->get_by_id($dbUser['account_id']);
+        // if (!isset($account['id']) || $account['status'] != '') throw new Exception("Account not active", 400);
 
         if ($dbUser['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
 
@@ -67,20 +67,13 @@ class UserService extends BaseService
 
     public function register($user)
     {
-        if (!isset($user['account'])) throw new Exception("Account field required");
+        // if (!isset($user['account'])) throw new Exception("Account field required");
 
         try {
             // open transaction here 
             $this->dao->beginTransaction();
 
-            $account = $this->accountDao->add([
-                "name" => $user['account'],
-                "status" => "PENDING",
-                "created_at" => date(Config::DATE_FORMAT)
-
-            ]);
             $user = parent::add([
-                "account_id" => $account['id'],
                 "username" => $user['username'],
                 "first_name" => $user['first_name'],
                 "last_name" => $user['last_name'],
@@ -115,7 +108,7 @@ class UserService extends BaseService
         if (!isset($user['id'])) throw new Exception("Invalid token", 400);
 
         $this->dao->update($user['id'], ["status" => "ACTIVE", "token" => NULL]);
-        $this->accountDao->update($user['account_id'], ["status" => "ACTIVE"]);
+        // $this->accountDao->update($user['account_id'], ["status" => "ACTIVE"]);
         // send email to customer that their account is now confirmed
         //$this->smtpClient->send_user_confirmed_notice($user);
         return $user;
