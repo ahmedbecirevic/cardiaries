@@ -41,7 +41,7 @@
                                             </div>
                                          
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="pages/password.html">Forgot Password?</a>
+                                                <a class="small" onclick="showForgotForm()">Forgot Password?</a>
                                                 <button id="login-link" class="btn btn-primary" onclick="doLogin()">Login</button>
                                             </div>
                                         </form>
@@ -52,8 +52,8 @@
                                 </div>
                             </div>
                             <!-- ALERT FOR REGISTERING -->
-                            <div id="register-alert" class="alert alert-success" role="alert" style="display: none; margin-top: 40px;">
-                                Conformation email has been sent. Please confirm your account!
+                            <div id="form-alert" class="alert alert-success" role="alert" style="display: none; margin-top: 40px;">
+                                Alert Message
                             </div>
                             <!-- Start of register -->
                             <div id="register-form-container" class="col-lg-7" style="display: none;">
@@ -81,7 +81,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="register-username">Username</label>
-                                                <input class="form-control py-4" id="register-username" placeholder="Enter your username" />
+                                                <input class="form-control py-4" id="register-username" type="search" placeholder="Enter your username" />
                                             </div>
                                             <div class="form-row">
                                                 <div class="col-md-6">
@@ -105,11 +105,59 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- end register -->
+                            <!-- Forgot Password START -->
+                            <div id="forgot-form-container" class="col-lg-5" style="display: none;">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Password Recovery</h3></div>
+                                    <div class="card-body">
+                                        <div class="small mb-3 text-muted">Enter your email address and we will send you a link to reset your password.</div>
+                                        <form>
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputEmailAddress">Email</label>
+                                                <input id="forgot-email" class="form-control py-4" type="email" aria-describedby="emailHelp" placeholder="Enter email address" />
+                                            </div>
+                                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="small" onclick="showLoginForm()">Return to login</a>
+                                                <button id="forgot-link" class="btn btn-primary" onclick="doForgotPassword()">Reset Password</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showRegisterForm()">Need an account? Sign up!</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Forgot Password END -->
+                            <!-- Change password / enter new -->
+                            <div id="change-form-container" class="col-lg-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Password Change</h3></div>
+                                    <div class="card-body">
+                                        <form autocomplete="off">
+                                            <div class="form-group">
+                                                <label class="small mb-1">Token</label>
+                                                <input class="form-control py-4" type="search" placeholder="Enter token" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="small mb-1">New Password</label>
+                                                <input class="form-control py-4" type="search" placeholder="Enter new password" />
+                                            </div>
+                                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="small" onclick="showLoginForm()">Return to login</a>
+                                                <button class="btn btn-primary" onclick="doChangePassword()">Change Password</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showRegisterForm()">Need an account? Sign up!</button></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>
             </div>
+            <!-- FOOTER -->
             <div id="layoutAuthentication_footer">
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
@@ -138,7 +186,6 @@
                 }
             }) 
 
-
             function doLogin () {
                 let loginInfo = {
                     "email" : $("#email").val(),
@@ -154,19 +201,7 @@
                         $("#login-link").prop('disabled', false)
                         alert( error.responseJSON.message )
                     })
-
-                // console.log(loginInfo)
             };
-
-            function showRegisterForm () {
-                $("#login-form-container").hide()
-                $("#register-form-container").show()
-            }
-
-            function showLoginForm () {
-                $("#register-form-container").hide()
-                $("#login-form-container").show()
-            }
 
             function doRegister () { 
                 let registerInfo = {
@@ -180,12 +215,45 @@
                 $.post( "http://localhost/cardiaries/api/register", registerInfo )
                     .done( function( data ) {
                         $("#register-form-container").hide()
-                        $("#register-alert").show()
+                        $("#form-alert").show().html(data.message)
                     })
                     .fail( function (error) {
                         $("#register-link").prop('disabled', false)
                         alert( error.responseJSON.message )
                     })
+            }
+
+            function doForgotPassword() { 
+                let loginInfo = {
+                    "email" : $("#forgot-email").val(),
+                }
+                $("#forgot-link").prop('disabled', true)
+                $.post( "http://localhost/cardiaries/api/forgot", loginInfo )
+                    .done( function( data ) {
+                        $("#forgot-form-container").hide()
+                        $("#form-alert").show().html(data.message)
+                    })
+                    .fail( function (error) {
+                        $("#login-link").prop('disabled', false)
+                        alert( error.responseJSON.message )
+                    })
+            }
+
+            function showRegisterForm () {
+                $("#forgot-form-container").hide()
+                $("#login-form-container").hide()
+                $("#register-form-container").show()
+            }
+
+            function showLoginForm () {
+                $("#forgot-form-container").hide()
+                $("#register-form-container").hide()
+                $("#login-form-container").show()
+            }
+
+            function showForgotForm () {
+                $("#login-form-container").hide()
+                $("#forgot-form-container").show()
             }
         </script>
     </body>
