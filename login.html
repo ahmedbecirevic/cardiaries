@@ -17,6 +17,15 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             <!-- Log In! -->
+                            <!-- <div class="input-group" style="">
+                                <div class="form-outline">
+                                  <input type="search" id="form1" class="form-control" />
+                                  <label class="form-label" for="form1">Search</label>
+                                </div>
+                                <button type="button" class="btn btn-primary">
+                                  <i class="fas fa-search"></i>
+                                </button>
+                            </div> -->
                             <div id="login-form-container" class="col-lg-5" >
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
@@ -41,6 +50,10 @@
                                         <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showRegisterForm()">Need an account? Sign up!</button></div>
                                     </div>
                                 </div>
+                            </div>
+                            <!-- ALERT FOR REGISTERING -->
+                            <div id="register-alert" class="alert alert-success" role="alert" style="display: none; margin-top: 40px;">
+                                Conformation email has been sent. Please confirm your account!
                             </div>
                             <!-- Start of register -->
                             <div id="register-form-container" class="col-lg-7" style="display: none;">
@@ -84,7 +97,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group mt-4 mb-0"><a class="btn btn-primary btn-block" onclick="doRegister()">Create Account</a></div>
+                                            <div class="form-group mt-4 mb-0"><button id="register-link" class="btn btn-primary btn-block" onclick="doRegister()">Create Account</button></div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
@@ -156,8 +169,24 @@
             }
 
             function doRegister () { 
-                $("")
-             }
+                let registerInfo = {
+                    "email" : $("#register-email").val(),
+                    "password" : $("#register-password").val(),
+                    "first_name" : $("#register-name").val(),
+                    "last_name" : $("#register-last").val(),
+                    "username" : $("#register-username").val()
+                }
+                $("#register-link").prop('disabled', true)
+                $.post( "http://localhost/cardiaries/api/register", registerInfo )
+                    .done( function( data ) {
+                        $("#register-form-container").hide()
+                        $("#register-alert").show()
+                    })
+                    .fail( function (error) {
+                        $("#register-link").prop('disabled', false)
+                        alert( error.responseJSON.message )
+                    })
+            }
         </script>
     </body>
 </html>
