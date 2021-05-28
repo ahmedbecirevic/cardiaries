@@ -15,6 +15,10 @@
             <div id="layoutAuthentication_content">
                 <main>
                     <div class="container">
+                        <!-- ALERT FOR REGISTERING -->
+                        <div id="form-alert" class="alert alert-success text-center" role="alert" style="display: none; margin-top: 40px;">
+                            Alert Message
+                        </div>
                         <div class="row justify-content-center">
                             <!-- Log In! -->
                             <!-- <div class="input-group" style="">
@@ -50,10 +54,6 @@
                                         <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showRegisterForm()">Need an account? Sign up!</button></div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- ALERT FOR REGISTERING -->
-                            <div id="form-alert" class="alert alert-success" role="alert" style="display: none; margin-top: 40px;">
-                                Alert Message
                             </div>
                             <!-- Start of register -->
                             <div id="register-form-container" class="col-lg-7" style="display: none;">
@@ -129,22 +129,19 @@
                             </div>
                             <!-- Forgot Password END -->
                             <!-- Change password / enter new -->
-                            <div id="change-form-container" class="col-lg-5">
+                            <div id="change-form-container" class="col-lg-5" style="display: none;">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Password Change</h3></div>
                                     <div class="card-body">
                                         <form autocomplete="off">
-                                            <div class="form-group">
-                                                <label class="small mb-1">Token</label>
-                                                <input class="form-control py-4" type="search" placeholder="Enter token" />
-                                            </div>
+                                                <input id="change-password-token" class="form-control py-4" type="hidden" placeholder="Enter token"/>
                                             <div class="form-group">
                                                 <label class="small mb-1">New Password</label>
-                                                <input class="form-control py-4" type="search" placeholder="Enter new password" />
+                                                <input id="change-password-password" class="form-control py-4" type="search" placeholder="Enter new password" />
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" onclick="showLoginForm()">Return to login</a>
-                                                <button class="btn btn-primary" onclick="doChangePassword()">Change Password</button>
+                                                <a class="small"></a>
+                                                <button id="change-link" class="btn btn-primary" onclick="doChangePassword()">Change Password</button>
                                             </div>
                                         </form>
                                     </div>
@@ -183,6 +180,12 @@
                     window.location = "index.html"
                 } else {
                     $('body').show()
+                }
+                var urlParams = new URLSearchParams(window.location.search)
+                
+                if (urlParams.has('token')) {
+                    $("#change-password-token").val(urlParams.get('token'))
+                    showChangePasswordForm()
                 }
             }) 
 
@@ -224,19 +227,44 @@
             }
 
             function doForgotPassword() { 
-                let loginInfo = {
+                let forgotInfo = {
                     "email" : $("#forgot-email").val(),
                 }
                 $("#forgot-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/forgot", loginInfo )
+                $.post( "http://localhost/cardiaries/api/forgot", forgotInfo )
                     .done( function( data ) {
                         $("#forgot-form-container").hide()
                         $("#form-alert").show().html(data.message)
                     })
                     .fail( function (error) {
-                        $("#login-link").prop('disabled', false)
+                        $("#forgot-link").prop('disabled', false)
                         alert( error.responseJSON.message )
                     })
+            }
+
+            function doChangePassword() { 
+                let changeInfo = {
+                    "password" : $("#change-password-password").val(),
+                    "token" : $("#change-password-token").val()
+                }
+                $("#change-link").prop('disabled', true)
+                $.post( "http://localhost/cardiaries/api/reset", changeInfo )
+                    .done( function( data ) {
+                        // set the token the /reset route returns(JWT), different from reset password token
+                        window.localStorage.setItem("token", data.token)
+                        window.location = "index.html"
+                    })
+                    .fail( function (error) {
+                        $("#change-link").prop('disabled', false)
+                        alert( error.responseJSON.message )
+                    })
+             }
+
+            function showChangePasswordForm () {
+                $("#change-form-container").show()
+                $("#forgot-form-container").hide()
+                $("#login-form-container").hide()
+                $("#register-form-container").hide()
             }
 
             function showRegisterForm () {

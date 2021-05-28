@@ -29,7 +29,7 @@ class SMTPClient
         $message = (new Swift_Message('Reset Your Password'))
             ->setFrom(['ahmed.becirevic@stu.ibu.edu.ba' => 'CarDiaries'])
             ->setTo($user['email'])
-            ->setBody('Here is the recovery token: ' . $user['token']);
+            ->setBody('Click here to change your password: http://localhost/cardiaries/login.html?token=' . $user['token']);
         $this->mailer->send($message);
     }
 
