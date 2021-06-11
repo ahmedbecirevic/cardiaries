@@ -33,14 +33,14 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form id="login-form">
                                             <div class="form-group">
                                                 <label class="small mb-1" for="login-email">Email</label>
-                                                <input id="email" class="form-control py-4" id="login-email" type="email" placeholder="Enter email address" />
+                                                <input id="email" class="form-control py-4" name="email" type="email" placeholder="Enter email address" />
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="login-password">Password</label>
-                                                <input id="password" class="form-control py-4" id="login-password" type="password" placeholder="Enter password" />
+                                                <input id="password" class="form-control py-4" name="password" type="password" placeholder="Enter password" />
                                             </div>
                                          
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
@@ -59,34 +59,34 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form id="register-form">
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="register-name">First Name</label>
-                                                        <input class="form-control py-4" id="register-name" type="text" placeholder="Enter first name" />
+                                                        <input class="form-control py-4" type="text" placeholder="Enter first name" name="first_name" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="register-last">Last Name</label>
-                                                        <input class="form-control py-4" id="register-last" type="text" placeholder="Enter last name" />
+                                                        <input class="form-control py-4" type="text" placeholder="Enter last name" name="last_name"/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="register-email">Email</label>
-                                                <input class="form-control py-4" id="register-email" type="email" aria-describedby="emailHelp" placeholder="Enter email address" />
+                                                <input class="form-control py-4" type="email" aria-describedby="emailHelp" placeholder="Enter email address" name="email"/>
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="register-username">Username</label>
-                                                <input class="form-control py-4" id="register-username" type="search" placeholder="Enter your username" />
+                                                <input class="form-control py-4" type="search" placeholder="Enter your username" name="username"/>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="register-password">Password</label>
-                                                        <input class="form-control py-4" id="register-password" type="password" placeholder="Enter password" />
+                                                        <input class="form-control py-4" type="password" placeholder="Enter password" name="password"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -110,10 +110,10 @@
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Password Recovery</h3></div>
                                     <div class="card-body">
                                         <div class="small mb-3 text-muted">Enter your email address and we will send you a link to reset your password.</div>
-                                        <form>
+                                        <form id="forgot-form">
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                                <input id="forgot-email" class="form-control py-4" type="email" aria-describedby="emailHelp" placeholder="Enter email address" />
+                                                <input name="email" class="form-control py-4" type="email" aria-describedby="emailHelp" placeholder="Enter email address" />
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" onclick="showLoginForm()">Return to login</a>
@@ -132,11 +132,11 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Password Change</h3></div>
                                     <div class="card-body">
-                                        <form autocomplete="off">
-                                                <input id="change-password-token" class="form-control py-4" type="hidden" placeholder="Enter token"/>
+                                        <form autocomplete="off" id="change-form">
+                                                <input name="token" id="change-password-token" class="form-control py-4" type="hidden" placeholder="Enter token"/>
                                             <div class="form-group">
                                                 <label class="small mb-1">New Password</label>
-                                                <input id="change-password-password" class="form-control py-4" type="search" placeholder="Enter new password" />
+                                                <input name="password" class="form-control py-4" type="search" placeholder="Enter new password" />
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small"></a>
@@ -172,6 +172,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="assets/js/scripts.js"></script>
+        <script src="assets/js/utils.js"></script>
+
 
         <script type="text/javascript">
             $( function() {
@@ -189,12 +191,8 @@
             }) 
 
             function doLogin () {
-                let loginInfo = {
-                    "email" : $("#email").val(),
-                    "password" : $("#password").val()
-                }
                 $("#login-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/login", loginInfo )
+                $.post( "http://localhost/cardiaries/api/login", jsonizeForm("#login-form") )
                     .done( function( data ) {
                             window.localStorage.setItem("token", data.token)
                             window.location = "index.html"
@@ -206,15 +204,8 @@
             };
 
             function doRegister () { 
-                let registerInfo = {
-                    "email" : $("#register-email").val(),
-                    "password" : $("#register-password").val(),
-                    "first_name" : $("#register-name").val(),
-                    "last_name" : $("#register-last").val(),
-                    "username" : $("#register-username").val()
-                }
                 $("#register-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/register", registerInfo )
+                $.post( "http://localhost/cardiaries/api/register", jsonizeForm("#register-form") )
                     .done( function( data ) {
                         $("#register-form-container").hide()
                         $("#form-alert").show().html(data.message)
@@ -226,11 +217,8 @@
             }
 
             function doForgotPassword() { 
-                let forgotInfo = {
-                    "email" : $("#forgot-email").val(),
-                }
                 $("#forgot-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/forgot", forgotInfo )
+                $.post( "http://localhost/cardiaries/api/forgot", jsonizeForm("#forgot-form") )
                     .done( function( data ) {
                         $("#forgot-form-container").hide()
                         $("#form-alert").show().html(data.message)
@@ -242,12 +230,8 @@
             }
 
             function doChangePassword() { 
-                let changeInfo = {
-                    "password" : $("#change-password-password").val(),
-                    "token" : $("#change-password-token").val()
-                }
                 $("#change-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/reset", changeInfo )
+                $.post( "http://localhost/cardiaries/api/reset", jsonizeForm("#change-form") )
                     .done( function( data ) {
                         // set the token the /reset route returns(JWT), different from reset password token
                         window.localStorage.setItem("token", data.token)
