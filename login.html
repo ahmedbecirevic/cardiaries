@@ -8,7 +8,11 @@
         <meta name="author" content="" />
         <title>CarDiaries Login</title>
         <link href="assets/css/styles.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" 
+        crossorigin="anonymous"></script>
+
+        <!-- Toastr CSS -->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     </head>
     <body style="display:none" class="bg-primary">
         <div id="layoutAuthentication">
@@ -174,6 +178,8 @@
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/utils.js"></script>
 
+        <!-- Toastr JavaScript -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
         <script type="text/javascript">
             $( function() {
@@ -192,46 +198,46 @@
 
             function doLogin () {
                 $("#login-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/login", jsonizeForm("#login-form") )
+                $.post( "api/login", jsonizeForm("#login-form") )
                     .done( function( data ) {
                             window.localStorage.setItem("token", data.token)
                             window.location = "index.html"
                     })
                     .fail( function (error) {
                         $("#login-link").prop('disabled', false)
-                        alert( error.responseJSON.message )
+                        toastr.error( error.responseJSON.message )
                     })
             };
 
             function doRegister () { 
                 $("#register-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/register", jsonizeForm("#register-form") )
+                $.post( "api/register", jsonizeForm("#register-form") )
                     .done( function( data ) {
                         $("#register-form-container").hide()
                         $("#form-alert").show().html(data.message)
                     })
                     .fail( function (error) {
                         $("#register-link").prop('disabled', false)
-                        alert( error.responseJSON.message )
+                        toastr.error( error.responseJSON.message )
                     })
             }
 
             function doForgotPassword() { 
                 $("#forgot-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/forgot", jsonizeForm("#forgot-form") )
+                $.post( "api/forgot", jsonizeForm("#forgot-form") )
                     .done( function( data ) {
                         $("#forgot-form-container").hide()
                         $("#form-alert").show().html(data.message)
                     })
                     .fail( function (error) {
                         $("#forgot-link").prop('disabled', false)
-                        alert( error.responseJSON.message )
+                        toastr.error( error.responseJSON.message )
                     })
             }
 
             function doChangePassword() { 
                 $("#change-link").prop('disabled', true)
-                $.post( "http://localhost/cardiaries/api/reset", jsonizeForm("#change-form") )
+                $.post( "api/reset", jsonizeForm("#change-form") )
                     .done( function( data ) {
                         // set the token the /reset route returns(JWT), different from reset password token
                         window.localStorage.setItem("token", data.token)
@@ -239,7 +245,7 @@
                     })
                     .fail( function (error) {
                         $("#change-link").prop('disabled', false)
-                        alert( error.responseJSON.message )
+                        toastr.error( error.responseJSON.message )
                     })
              }
 
