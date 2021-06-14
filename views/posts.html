@@ -12,12 +12,35 @@
         <i class="fas fa-table mr-1"></i>
         Your Posts
     </div>
-    <div class="card">
+    <div class="card" id="posts-insert">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
         </div>
-        <img class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">
+        
     </div>  
 </div>  
+
+<script>
+    getPosts()
+    function getPosts () {
+        $.ajax({
+            url: 'api/user/posts',
+            type: 'GET',
+            beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
+            success: function(data) {
+                console.log(data)
+                
+                let html = "";
+                for (let i = 0; i < data.length; i++) {
+                    html += '<div class="card-body">' + 
+                                '<h4 class="card-title">' + data[i].car_id + '</h4>' +
+                                '<p class="card-text">' + data[i].body + '</p>' +
+                                '<p class="card-text"><small class="text-muted">Post created at: ' + data[i].created_at + '</small></p>' +
+                            '</div>' + 
+                            '<img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">'
+                }
+                $("#posts-insert .card-body").html(html)
+            }
+        }) 
+    }
+</script>
