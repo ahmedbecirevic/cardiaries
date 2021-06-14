@@ -3,20 +3,13 @@
     <li class="breadcrumb-item active">Collection of post from every car.</li>
 </ol>
 <div class="card mb-4">
-    <div class="card-body">
-        
-    </div>
-</div>
-<div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table mr-1"></i>
         Your Posts
     </div>
     <div class="card" id="posts-insert">
         <div class="card-body">
-
         </div>
-        
     </div>  
 </div>  
 
@@ -29,15 +22,18 @@
             beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
             success: function(data) {
                 console.log(data)
-                
                 let html = "";
-                for (let i = 0; i < data.length; i++) {
-                    html += '<div class="card-body">' + 
-                                '<h4 class="card-title">' + data[i].car_id + '</h4>' +
-                                '<p class="card-text">' + data[i].body + '</p>' +
-                                '<p class="card-text"><small class="text-muted">Post created at: ' + data[i].created_at + '</small></p>' +
-                            '</div>' + 
-                            '<img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">'
+                if (data == []) {
+                    html += '<h4 class="card-title">You don\'t have any posts</h4>'
+                } else {
+                    for (let i = 0; i < data.length; i++) {
+                        html += '<div class="card-body">' + 
+                                    '<h4 class="card-title">' + data[i].car_id + '</h4>' +
+                                    '<p class="card-text">' + data[i].body + '</p>' +
+                                    '<p class="card-text"><small class="text-muted">Post created at: ' + data[i].created_at + '</small></p>' +
+                                '</div>' + 
+                                '<img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">'
+                    }
                 }
                 $("#posts-insert .card-body").html(html)
             }
