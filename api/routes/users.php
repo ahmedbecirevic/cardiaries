@@ -110,7 +110,7 @@ Flight::route('POST /reset', function () {
  *   @OA\Response(response="200", description="Message that the image was uploaded successfuly")
  * )
  */
-Flight::route('POST user/upload', function () {
+Flight::route('POST /user/upload', function () {
     $request = Flight::request()->files['image'];
     // $uploadDirectory = 'C:/Bitnami/wampstack-8.0.2-1/apache2/htdocs/cardiaries/api/files/';
     // move_uploaded_file($request['tmp_name'], $uploadDirectory . $request['name']);
@@ -122,7 +122,7 @@ Flight::route('POST user/upload', function () {
  *   @OA\RequestBody(description="Upload file to DOSpaces", required=true,
  *       @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
- *    				 @OA\Property(property="name", required="true", type="string", example="name",	description="Photo Name" ),
+ *    				 @OA\Property(property="name", required="true", type="string", example="name",	description="Photo Name with file extension" ),
  *    				 @OA\Property(property="content", required="true", type="string", example="test",	description="Base64 encoded photo" )
  *          )
  *       )

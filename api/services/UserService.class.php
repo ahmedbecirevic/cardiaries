@@ -114,7 +114,7 @@ class UserService extends BaseService
         return $user;
     }
 
-    public function uploadImage ($imagePath) {
-        $this->DOSpacesClient->uploadImage($imagePath);
+    public function uploadImage ($imageName, $content) {
+        $this->DOSpacesClient->uploadImage($imageName, $content);
     }
 }

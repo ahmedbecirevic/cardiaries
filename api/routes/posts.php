@@ -28,7 +28,8 @@ Flight::route('GET /user/posts', function () {
  *          @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
  *    				@OA\Property(property="body", required="true", type="string", example="Writing about my car", description="Body of the post"),
- *    				@OA\Property(property="vin", required="true", type="string", example="4Y1SL65848Z411439", description="VIN of the car that you are posting about")
+ *    				@OA\Property(property="vin", required="true", type="string", example="4Y1SL65848Z411439", description="VIN of the car that you are posting about"),
+ *    				@OA\Property(property="image_url", required="true", type="string", example="https://cardiaries-space.fra1.digitaloceanspaces.com/picture1.jpg", description="CDN URL of the image")
  *              )
  *          )
  *      ),
@@ -44,21 +45,23 @@ Flight::route('POST /posts', function () {
 
 /**
  * 
- * @OA\Post(path="user/car/posts", tags={"posts","users","cars"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Post(path="/user/car/posts/{car_id}", tags={"posts","users","cars"}, security={{"ApiKeyAuth": {}}},
+ *      @OA\Parameter(type="integer", in="path", name="car_id", default=1, description="ID of car"),
  *      @OA\RequestBody(
  *          description="Post fields",
  *          required=true,
  *          @OA\MediaType(mediaType="application/json",
  *    			@OA\Schema(
- *    				@OA\Property(property="body", required="true", type="string", example="Writing about my car", description="Body of the post")
+ *    				@OA\Property(property="body", required="true", type="string", example="Writing about my car", description="Body of the post"),
+ *    				@OA\Property(property="image_url", required="true", type="string", example="https://cardiaries-space.fra1.digitaloceanspaces.com/picture1.jpg", description="CDN URL of the image")
  *              )
  *          )
  *      ),
- *      @OA\Response(response="200", description="Account that has been added to the database with ID assigned")
+ *      @OA\Response(response="200", description="Post saved to database!")
  * )
  * 
  */
-Flight::route('POST user/car/posts@car_id', function ($car_id) {
+Flight::route('POST /user/car/posts/@car_id', function ($car_id) {
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::postService()->addPost($data, Flight::get('user')['id']), $car_id);
+    Flight::json(Flight::postService()->addPost($data, $car_id, Flight::get('user')['id']));
 });

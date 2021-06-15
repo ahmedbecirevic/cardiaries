@@ -17,4 +17,9 @@ class CarDao extends BaseDao
     {
         return $this->query("SELECT * FROM cars WHERE user_id = :id", ["id" => $id]);
     }
+
+    public function get_car_by_its_id($id)
+    {
+        return $this->query_unique("SELECT * FROM cars WHERE id = :id", ["id" => $id]);
+    }
 }
