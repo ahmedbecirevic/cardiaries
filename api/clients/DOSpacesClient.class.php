@@ -21,13 +21,14 @@ class DOSpacesClient
         ]);
     }
 
-    public function uploadImage($imagePath)
+    public function uploadImage($imageName, $content)
     {
-        $this->client->putObject([
+        $response = $this->client->putObject([
             'Bucket' => 'cardiaries-space',
-            'Key'    => $imagePath.'photo',
-            'Body'   => $imagePath,
+            'Key'    => $imageName,
+            'Body'   => base64_decode($content),
             'ACL'    => 'public-read'
         ]);
+        return $response->get('ObjectURL'); 
     }
 }

@@ -98,7 +98,7 @@ Flight::route('POST /reset', function () {
 
 
 /**
- * @OA\Post( path="/upload", tags={"users"},
+ * @OA\Post( path="user/upload", tags={"users"},
  *   description="Upload your image",
  *   @OA\RequestBody(required=true, description="Upload your image",
  *      @OA\MediaType(mediaType="multipart/form-data",
@@ -110,12 +110,32 @@ Flight::route('POST /reset', function () {
  *   @OA\Response(response="200", description="Message that the image was uploaded successfuly")
  * )
  */
-Flight::route('POST /upload', function () {
+Flight::route('POST user/upload', function () {
     $request = Flight::request()->files['image'];
     // $uploadDirectory = 'C:/Bitnami/wampstack-8.0.2-1/apache2/htdocs/cardiaries/api/files/';
     // move_uploaded_file($request['tmp_name'], $uploadDirectory . $request['name']);
     Flight::userService()->uploadImage($request['tmp_name']);
 });
+
+/**
+ * @OA\Post(path="/upload", tags={"users"}, security={{"ApiKeyAuth": {}}},
+ *   @OA\RequestBody(description="Upload file to DOSpaces", required=true,
+ *       @OA\MediaType(mediaType="application/json",
+ *    			@OA\Schema(
+ *    				 @OA\Property(property="name", required="true", type="string", example="name",	description="Photo Name" ),
+ *    				 @OA\Property(property="content", required="true", type="string", example="test",	description="Base64 encoded photo" )
+ *          )
+ *       )
+ *     ),
+ *  @OA\Response(response="200", description="Upload file to CDN")
+ * )
+ */
+Flight::route('POST /upload', function(){
+    $data = Flight::request()->data->getData();
+    $url = Flight::spacesClient()->uploadImage($data['name'], $data['content']);
+    Flight::json(["url" => $url]);
+  });
+
 
 // /**
 //  * @OA\Get(path="/user/car/posts", tags={"cars", "users", "posts"}, security={{"ApiKeyAuth": {}}},

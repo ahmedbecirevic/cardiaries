@@ -1,3 +1,13 @@
+<form class="mt-3">
+    <div class="form-group">
+        <label>Post description</label>
+        <textarea class="form-control" name="body" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Choose the photo you want to add</label>
+        <input type="file" class="form-control-file" name="image_link">
+      </div>
+  </form>
 <h1 class="mt-4">Posts</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Collection of post from every car.</li>
@@ -9,6 +19,7 @@
     </div>
     <div class="card" id="posts-insert">
         <div class="card-body">
+            
         </div>
     </div>  
 </div>  
@@ -23,7 +34,7 @@
             success: function(data) {
                 console.log(data)
                 let html = "";
-                if (data == []) {
+                if (jQuery.isEmptyObject(data)) {
                     html += '<h4 class="card-title">You don\'t have any posts</h4>'
                 } else {
                     for (let i = 0; i < data.length; i++) {
@@ -32,7 +43,8 @@
                                     '<p class="card-text">' + data[i].body + '</p>' +
                                     '<p class="card-text"><small class="text-muted">Post created at: ' + data[i].created_at + '</small></p>' +
                                 '</div>' + 
-                                '<img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">'
+                                '<img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">' +
+                                '<hr class="solid">'
                     }
                 }
                 $("#posts-insert .card-body").html(html)

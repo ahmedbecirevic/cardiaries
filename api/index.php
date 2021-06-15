@@ -9,6 +9,7 @@ require_once dirname(__FILE__) . '/services/UserService.class.php';
 require_once dirname(__FILE__) . '/services/CarService.class.php';
 require_once dirname(__FILE__) . '/services/PostService.class.php';
 
+require_once dirname(__FILE__) . '/clients/DOSpacesClient.class.php';
 
 Flight::set('flight.log_errors', true);
 
@@ -53,7 +54,7 @@ Flight::register('accountService', 'AccountService');
 Flight::register('userService', 'UserService');
 Flight::register('carService', 'CarService');
 Flight::register('postService', 'PostService');
-
+Flight::register('spacesClient', 'DOSpacesClient');
 
 /*Include all routes */
 require_once dirname(__FILE__) . "/routes/middleware.php";

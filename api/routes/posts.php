@@ -38,5 +38,27 @@ Flight::route('GET /user/posts', function () {
  */
 Flight::route('POST /posts', function () {
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::postService()->addPost($data, Flight::get('user')['id']));
+    Flight::json(Flight::postService()->addPostByVin($data, Flight::get('user')['id']));
+});
+
+
+/**
+ * 
+ * @OA\Post(path="user/car/posts", tags={"posts","users","cars"}, security={{"ApiKeyAuth": {}}},
+ *      @OA\RequestBody(
+ *          description="Post fields",
+ *          required=true,
+ *          @OA\MediaType(mediaType="application/json",
+ *    			@OA\Schema(
+ *    				@OA\Property(property="body", required="true", type="string", example="Writing about my car", description="Body of the post")
+ *              )
+ *          )
+ *      ),
+ *      @OA\Response(response="200", description="Account that has been added to the database with ID assigned")
+ * )
+ * 
+ */
+Flight::route('POST user/car/posts@car_id', function ($car_id) {
+    $data = Flight::request()->data->getData();
+    Flight::json(Flight::postService()->addPost($data, Flight::get('user')['id']), $car_id);
 });

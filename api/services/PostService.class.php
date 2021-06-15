@@ -13,7 +13,7 @@ class PostService extends BaseService
         $this->carDao = new CarDao();
     }
 
-    public function addPost($post, $userID)
+    public function addPostByVin($post, $userID)
     {
 
         $car = $this->carDao->get_car_by_vin($post['vin']);
@@ -24,6 +24,11 @@ class PostService extends BaseService
         $post['user_id'] = $userID;
         unset($post['vin']);
         return parent::add($post);
+    }
+
+    public function addPost ($post, $userID, $car_id) {
+        if (!isset($post['body'])) throw new Exception("Body of the post is missing!");
+        $car = $this->carDao->get_cars_by_id($car_id);
     }
 
     public function get_posts_by_id($id)
