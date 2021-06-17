@@ -12,4 +12,39 @@
         <i class="fas fa-table mr-1"></i>
         Your Cars
     </div>
+    <div class="card" id="cars-insert">
+        <div class="card-body">
+            
+        </div>
+    </div> 
 </div>
+
+<script>
+    const getCars = () => {
+        $.ajax({
+            url: 'api/user/cars',
+            type: 'GET',
+            beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
+            success: function(data) {
+                console.log(data)
+                let html = "";
+                if (jQuery.isEmptyObject(data)) {
+                    html += '<h4 class="card-title">You don\'t have any cars</h4>'
+                } else {
+                    for (let i = 0; i < data.length; i++) {
+                        html += '<div class="collapse" id="collapseExample">' + 
+                                    '<div class="card-body">' + 
+                                        '<h4 class="card-title">' + data[i].model_name + '</h4>' +
+                                        '<p class="card-text">' + data[i].year_of_production + '</p>' +
+                                        '<p class="card-text">' + data[i].mileage + '</p>' +
+                                    '</div>' + 
+                                ' </div>'
+                    }
+                }
+                $("#cars-insert .card-body").html(html)
+            }
+        }) 
+    }
+
+    getCars();
+</script>

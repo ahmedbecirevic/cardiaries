@@ -39,7 +39,7 @@ Flight::route('GET /accounts', function () {
  * )
  */
 Flight::route('GET /accounts/@id', function ($id) {
-    if (Flight::get('user')['aid'] != $id) throw new Exception("This account is not for you!", 403);
+    // if (Flight::get('user')['aid'] != $id) throw new Exception("This account is not for you!", 403);
     Flight::json(Flight::accountService()->get_by_id($id));
 });
 

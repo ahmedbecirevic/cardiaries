@@ -1,13 +1,15 @@
-<form class="mt-3">
+<form class="mt-3" id="add-post-form">
     <div class="form-group">
         <label>Post description</label>
         <textarea class="form-control" name="body" rows="3"></textarea>
     </div>
+    <img id="upload-img" src="" alt="Waiting for upload"/>
     <div class="form-group">
         <label>Choose the photo you want to add</label>
-        <input type="file" class="form-control-file" name="image_link">
-      </div>
-  </form>
+        <input type="file" class="form-control-file" name="image_link" onchange="file2Base64(this)">
+    </div>
+    <button class="btn btn-primary" type="submit">Upload Image</button>
+</form>
 <h1 class="mt-4">Posts</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Collection of post from every car.</li>
@@ -36,10 +38,10 @@
             type: 'GET',
             beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
             success: function(data) {
-                console.log(data)
+                console.log(data);
                 let html = "";
                 if (jQuery.isEmptyObject(data)) {
-                    html += '<h4 class="card-title">You don\'t have any posts</h4>'
+                    html += '<h4 class="card-title">You don\'t have any posts</h4>';
                 } else {
                     for (let i = 0; i < data.length; i++) {
                         html += '<div class="card-body">' + 
@@ -48,11 +50,47 @@
                                     '<p class="card-text"><small class="text-muted">Post created at: ' + data[i].created_at + '</small></p>' +
                                 '</div>' + 
                                 '<img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">' +
-                                '<hr class="solid">'
+                                '<hr class="solid">';
                     }
                 }
-                $("#posts-insert .card-body").html(html)
+                $("#posts-insert .card-body").html(html);
             }
         }) 
+    }
+
+    function file2Base64 (event) {
+        console.log(event.files)
+
+        const file = event.files[0];
+        const reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+            return function(e) {
+                // Render thumbnail.
+                // $('#upload-img').attr('src',e.target.result); //e.target.result is th base64 encoded picture
+
+                const upload = {
+                    name: file.name,
+                    content: e.target.result.split(',')[1]
+                };
+
+                $.ajax({
+                    url: 'api/upload',
+                    type: 'POST',
+                    data: JSON.stringify(upload),
+                    contentType: 'application/json',
+                    beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
+                    success: function(data) {
+                        console.log(data);
+                        $('#upload-img').attr('src',data.url);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                    }
+                });                      
+            }
+        })(file);
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(file);
     }
 </script>
