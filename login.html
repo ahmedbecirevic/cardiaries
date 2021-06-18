@@ -19,16 +19,47 @@
             <div id="layoutAuthentication_content">
                 <main>
                     <div class="container">
+                        <!-- modal to display cars -->
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Car you searched for</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table mr-1"></i>
+                                            Info about the car!
+                                        </div>
+                                        <div class="card" id="cars-insert">
+                                            
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!--  -->
                         <!-- ALERT FOR REGISTERING -->
                         <div id="form-alert" class="alert alert-success text-center" role="alert" style="display: none; margin-top: 40px;">
                             Alert Message
                         </div>
                         <!-- Search box -->
                         <div style="margin-top: 3%;">
-                            <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+                            <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2" id="search-vin-form">
                                 <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Enter vehicle VIN"
-                                aria-label="Search">
-                                <button class="fas fa-search" aria-hidden="true"></button>
+                                aria-label="Search" name="vin">
+                                <!-- triggers modal and ajax call to get car by VIN -->
+                                <button class="fas fa-search" aria-hidden="true" data-toggle="modal" data-target="#exampleModalCenter" onclick="listPostsByVIN()"></button>
                             </form>
                         </div>
                         <!-- Log In! -->
@@ -182,6 +213,51 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
         <script type="text/javascript">
+            const getPostsByCarID = (carID) => {
+                $.ajax({
+                    url: 'api/user/car/posts/' + carID,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},   
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                    }
+                }); 
+            }
+
+            const listPostsByVIN = () => {
+                const carVIN = jsonizeForm("#search-vin-form")
+
+                $.ajax({
+                    url: 'api/car/' + carVIN.vin,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log(data);
+                        console.log(data.model_name);
+                        let html = "";
+                        html += '<div class="card-body">' + 
+                                '<h4 class="card-title">' + data.model_name + '</h4>' +
+                                '<p class="card-text">' + data.year_of_production + '</p>' +
+                                '<p class="card-text">' + data.manufacturer + '</p>' +
+                                '<p class="card-text">' + data.mileage + '</p>' +
+                                '<p class="card-text">' + data.num_of_doors + '</p>' +
+                                '<p class="card-text">' + data.vin + '</p>' +
+                                '<p class="card-text">' + data.year_of_production + '</p>' +
+                        '</div>';
+                       
+                        $("#cars-insert").html(html)
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                    }
+                });    
+            }
+
+
             $( function() {
                 if ( window.localStorage.getItem("token") ) {
                     window.location = "index.html"
