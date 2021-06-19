@@ -13,12 +13,14 @@ class UserService extends BaseService
     private $accountDao;
     private $smtpClient;
     private $DOSpacesClient;
+    private $PostDao;
 
     public function __construct()
     {
         $this->dao = new UserDao();
         $this->accountDao = new AccountDao();
         $this->smtpClient = new SMTPClient();
+        $this->postDao = new PostDao();
         $this->DOSpacesClient = new DOSpacesClient;
     }
 
