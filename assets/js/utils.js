@@ -25,10 +25,8 @@ function json2form(selector, data){
 
  function role_based_elements(){
    var user_info = parse_jwt(window.localStorage.getItem("token"));
-   if (user_info.r == "USER_READ_ONLY"){
-     $(".user-stuff").remove();
-   }
-   if (user_info.r != "ADMIN"){
-     $(".admin-stuff").remove();
+   if (user_info.r != "USER"){
+      window.localStorage.clear();
+      window.location = 'login.html';
    }
  }
