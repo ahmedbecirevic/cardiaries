@@ -42,17 +42,11 @@
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Collection of post from every car.</li>
 </ol>
-<div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table mr-1"></i>
-        Your Posts
-    </div>
-    <div class="card" id="posts-insert">
-        <div class="card-body">
-            
-        </div>
-    </div>  
-</div>  
+<div id="posts-group-by-car">
+
+</div>
+
+  
 
 <!-- TODO: make one ajax call to upload image and get back the spaces URL -> /upload
     and then make other call /user/car/posts/{car_id} to get the post based on the car ID-->
@@ -71,20 +65,26 @@
             success: function(data) {
                 console.log(data);
                 let html = "";
-                if (jQuery.isEmptyObject(data)) {
-                    html += '<h4 class="card-title">You don\'t have any posts</h4>';
-                } else {
+                // if (jQuery.isEmptyObject(data)) {
+                //     html += '<h4 class="card-title">You don\'t have any posts</h4>';
+                // } else {
                     for (let i = 0; i < data.length; i++) {
-                        html += '<div class="card-body">' + 
-                                    '<h4 class="card-title">' + data[i].car_id + '</h4>' +
-                                    '<p class="card-text">' + data[i].body + '</p>' +
-                                    '<p class="card-text"><small class="text-muted">Post created at: ' + data[i].created_at + '</small></p>' +
-                                '</div>' + 
-                                '<img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image cap">' +
-                                '<hr class="solid">';
+                        const carId = data[i].car_id;
+                        let postHtml = "";
+                        if (document.getElementById("car" + carId)) { //retrns true if there is elements with such ID
+                            let insertPostSelector = "#post-insert" + carId;
+                            console.log(insertPostSelector);
+                            postHtml += `<p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="./assets/img/e92m3.jpg" alt="Card image cap">`
+                            $(insertPostSelector).append(postHtml);
+                        } else {
+                            let elementCarId = "car" + carId;
+                            let postId = "post-insert" + carId;
+                            html += `<div class="card mb-4"><div class="card-header"><i class="fas fa-car mr-1"></i><p id="${elementCarId}">${carId}</p> posts!</div><div class="card"><div class="card-body" id="${postId}"><p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="./assets/img/e92m3.jpg" alt="Card image cap"></div></div></div>`;
+                            $("#posts-group-by-car").append(html);
+                        }
                     }
-                }
-                $("#posts-insert .card-body").html(html);
+                    // }
+
             }
         }) 
     }
