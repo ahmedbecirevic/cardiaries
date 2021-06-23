@@ -1,81 +1,146 @@
-<!-- <div class="container-fluid"> -->
-    <h1 class="mt-4">Home</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Dashboard</li>
-    </ol>
-    <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Primary Card</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Warning Card</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-success text-white mb-4">
-                <div class="card-body">Success Card</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-danger text-white mb-4">
-                <div class="card-body">Danger Card</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-area mr-1"></i>
-                    Area Chart Example
-                </div>
-                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-            </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-bar mr-1"></i>
-                    Bar Chart Example
-                </div>
-                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-            </div>
-        </div>
-    </div>
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table mr-1"></i>
-            DataTable Example
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                </table>
-            </div>
-        </div>
-    </div>
-<!-- </div> -->
+<button id="add-post-modal-launch" class="btn btn-success mt-4" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#addPostModal">+ Add Post</button>
 
-<!-- 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Pjs" crossorigin="anonymous"></script>
-<script src="assets/demo/chart-area-demo.js"></script>
-<script src="assets/demo/chart-bar-demo.js"></script> -->
+<div class="modal fade" tabindex="-1" role="dialog" id="addPostModal" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form class="mt-3 needs-validation" id="add-post-form" novalidate>
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add New Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+                <div class="form-group">
+                    <label>Post description</label>
+                    <textarea id="post-body" class="form-control" name="body" rows="3" minlength="5" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter more than 5 characters for the description of the post!
+                      </div>
+                </div>
+                <img id="upload-img" src="" class="img-fluid" alt="Waiting for upload"/>
+                <div class="form-group">
+                    <div class="mb-3">
+                    <label for="formFile">Choose the photo you want to add</label>
+                    <input type="file" class="form-control" name="image_link" onchange="file2Base64(this)" id="formFile">
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button class="btn btn-dark" type="submit" id="add-post-button">Add Post</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>
+
+<h1 class="mt-4">Home</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Collection of post from every car.</li>
+</ol>
+<div class="card mb-4">
+    
+    <div class="card" id="posts-insert">
+        
+    </div>  
+</div>  
+
+<!-- TODO: make one ajax call to upload image and get back the spaces URL -> /upload
+    and then make other call /user/car/posts/{car_id} to get the post based on the car ID-->
+<!-- TODO: use this view for the home view to display all of the posts as a feed and add new view which will be triggered when clicked on a single car in the cars view and there add forms for adding new posts referencing that car from its ID -->
+
+<script>
+    // const imageURL;
+
+    getPosts()
+    
+    function getPosts () {
+        $.ajax({
+            url: 'api/user/posts',
+            type: 'GET',
+            beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
+            success: function(data) {
+                console.log(data);
+                let html = "";
+                if (jQuery.isEmptyObject(data)) {
+                    html += '<h4 class="card-title">You don\'t have any posts</h4>';
+                } else {
+                    for (let i = 0; i < data.length; i++) {
+                        html += `<div class="card-body"> <h3 class="card-title"> ${data[i].body} </h3> <img id="image" class="card-img-bottom " src="./assets/img/e92m3.jpg" alt="Card image"><p class="card-text float-right"><small class="text-muted">Post created at: ${data[i].created_at} + </small></p></div><hr class="solid">`;
+                    }
+                }
+                $("#posts-insert").html(html);
+            }
+        }) 
+    }
+
+    function file2Base64 (event) {
+        console.log(event.files)
+        $("#add-post-button").prop('disabled', true);
+
+        const file = event.files[0];
+        const reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+            return function(e) {
+                // Render thumbnail.
+                // $('#upload-img').attr('src',e.target.result); //e.target.result is th base64 encoded picture
+
+                const upload = {
+                    name: file.name,
+                    content: e.target.result.split(',')[1]
+                };
+
+                $.ajax({
+                    url: 'api/upload',
+                    type: 'POST',
+                    data: JSON.stringify(upload),
+                    contentType: 'application/json',
+                    beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
+                    success: function(data) {
+                        // imageURL = data.url;
+                        console.log(data);
+                        $('#upload-img').attr('src',data.url);
+                        toastr.success("Image uploaded!");
+                        $("#add-post-button").prop('disabled', false);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+
+                    }
+                });                      
+            }
+        })(file);
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(file);
+    }
+
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+            })
+        })()
+
+        // modal does not work without this onclick function
+        $('#add-post-modal-launch').click(function () {
+	        $('#addPostModal').modal({show : true});
+        });
+</script>

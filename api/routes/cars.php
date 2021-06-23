@@ -19,6 +19,16 @@ Flight::route('GET /car/@vin', function ($vin) {
 });
 
 /**
+ * @OA\Get(path="/car/name/{id}", tags={"cars"}, security={{"ApiKeyAuth": {}}},
+ *    @OA\Parameter(type="int", in="path", name="id", default=1, description="ID of the car"),
+ *    @OA\Response(response="200", description="Fetch car by id")
+ * )
+ */
+Flight::route('GET /car/name/@id', function ($id) {
+    Flight::json(Flight::carService()->get_car($id));
+});
+
+/**
  * @OA\Get(path="/user/cars", tags={"cars", "users"}, security={{"ApiKeyAuth": {}}},
  *    @OA\Response(response="200", description="Fetch logged in user's cars")
  * )

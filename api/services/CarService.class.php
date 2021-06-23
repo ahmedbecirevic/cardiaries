@@ -19,6 +19,12 @@ class CarService extends BaseService
         return $this->dao->get_cars_by_id($id);
     }
 
+    public function get_car($car_id)
+    {
+        return $this->dao->get_car_by_its_id($car_id);
+    }
+
+
     public function add($car)
     {
         try {
