@@ -64,3 +64,32 @@ Flight::route('POST /cars', function () {
     $data = Flight::request()->data->getData();
     Flight::json(Flight::carService()->add($data));
 });
+
+/**
+ * @OA\Put(path="/car/update/{id}", tags={"cars"}, security={{"ApiKeyAuth": {}}},
+ *    @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", default=1),
+ *    @OA\RequestBody(
+ *          description="Basic post inforamtion that's going to be updated!",
+ *          required=true,
+ *          @OA\MediaType(mediaType="application/json",
+ *    			@OA\Schema(
+ *    				@OA\Property(property="model_name", required="true", type="string", example="Golf", description="Car Model"),
+ *    				@OA\Property(property="year_of_production", type="int", example="2019", description="Production year"), 
+ *                  @OA\Property(property="mileage", type="int", example="90000", description="Car mileage"), 
+ *                  @OA\Property(property="num_of_doors", type="int", example="3", description="Car door number"), 
+ *                  @OA\Property(property="engine_power_kw", type="int", example="110", description="Power of the engine in kilowatts"), 
+ *                  @OA\Property(property="fuel", required="true", type="string", example="diesel", description="Type of fuel the car takes in"),
+ *                  @OA\Property(property="vin", required="true", type="string", example="4Y1SL65848Z411439", description="VIN number of the car"),
+ *                  @OA\Property(property="manufacturer", required="true", type="string", example="Volkswagen", description="Carmanufacturer")
+ *              )
+ *          )
+ *      ),
+ *    @OA\Response(response="200", description="Update car based on id")
+ * )
+ */
+//Route to update account table
+Flight::route('PUT /car/update/@id', function ($id) {
+    $data = Flight::request()->data->getData();
+
+    Flight::json(Flight::carService()->update(intval($id), $data));
+});

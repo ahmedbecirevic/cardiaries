@@ -65,3 +65,26 @@ Flight::route('POST /user/car/posts/@car_id', function ($car_id) {
     $data = Flight::request()->data->getData();
     Flight::json(Flight::postService()->addPost($data, $car_id, Flight::get('user')['id']));
 });
+
+/**
+ * @OA\Put(path="/posts/{id}", tags={"posts"}, security={{"ApiKeyAuth": {}}},
+ *    @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", default=1),
+ *    @OA\RequestBody(
+ *          description="Basic post inforamtion that's going to be updated!",
+ *          required=true,
+ *          @OA\MediaType(mediaType="application/json",
+ *    			@OA\Schema(
+ *    				@OA\Property(property="body", required="true", type="string", example="Writing about my car", description="Body of the post"),
+ *    				@OA\Property(property="image_url", required="true", type="string", example="https://cardiaries-space.fra1.digitaloceanspaces.com/picture1.jpg", description="CDN URL of the image")
+ *              )
+ *          )
+ *      ),
+ *    @OA\Response(response="200", description="Update post based on id")
+ * )
+ */
+//Route to update account table
+Flight::route('PUT /posts/@id', function ($id) {
+    $data = Flight::request()->data->getData();
+
+    Flight::json(Flight::postService()->update($id, $data));
+});
