@@ -15,9 +15,9 @@ class RestClient{
          },
          error: function(jqXHR, textStatus, errorThrown ){
             if (error){
-            error(jqXHR, textStatus, errorThrown);
+               error(jqXHR, textStatus, errorThrown);
             }else{
-            toastr.error(jqXHR.responseJSON.message);
+               toastr.error(jqXHR.responseJSON.message);
             }
          }
       });

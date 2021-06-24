@@ -59,7 +59,7 @@ class Accounts {
          columns: [
                { "data": "id",
                   "render": function ( data, type, row, meta ) {
-                     return `<div style="min-width: 60px;"> <span class="badge">${data}</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onclick="Accounts.pre_edit(${data})"><i class="fa fa-edit"></i></a> </div>`;
+                     return `<div style="min-width: 60px;"> <span class="badge">${data}</span><a class="float-right" style="font-size: 15px; cursor: pointer;" onclick="Accounts.pre_edit(${data})"><i class="fa fa-edit"></i></a> </div>`;
                   }
                },
                { "data": "name"},
@@ -87,7 +87,7 @@ class Accounts {
     }
   
     static update(account){
-      RestClient.put("api/user/email_templates/"+email_template.id, email_template, function(data){
+      RestClient.put("api/accounts/"+account.id, account, function(data){
         toastr.success("Email Template has been updated");
         EmailTemplate.get_all();
         $("#add-email-template").trigger("reset");
