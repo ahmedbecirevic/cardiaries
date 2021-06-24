@@ -24,4 +24,10 @@ class PostDao extends BaseDao
     public function check_image_exists ($imageName) {
         return $this->query("SELECT * FROM posts WHERE image_url LIKE '%':imageName'%'", ['imageName' => $imageName]);
     }
+
+    public function get_posts_by_its_id ($id)
+    {
+        return $this->query_unique("SELECT * FROM posts 
+                             WHERE id = :id", ["id" => $id]);
+    }
 }

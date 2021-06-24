@@ -52,4 +52,9 @@ class PostService extends BaseService
     {
         return $this->dao->get_posts_by_car_id($id);
     }
+
+    public function get_posts_by_its_id ($id) 
+    {
+        return $this->dao->get_posts_by_its_id($id);
+    }
 }

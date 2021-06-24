@@ -3,7 +3,7 @@
 /**
  * @OA\Get(path="/user/post/{id}", tags={"posts"}, 
  *    @OA\Parameter(type="integer", in="path", name="id", default=1, description="ID of post"),
- *    @OA\Response(response="200", description="Fetch individual user")
+ *    @OA\Response(response="200", description="Fetch individual post")
  * )
  */
 Flight::route('GET /user/post/@id', function ($id) {
@@ -12,11 +12,21 @@ Flight::route('GET /user/post/@id', function ($id) {
 
 /**
  * @OA\Get(path="/user/posts", tags={"posts","users"}, security={{"ApiKeyAuth": {}}},
- *    @OA\Response(response="200", description="Fetch user's cars")
+ *    @OA\Response(response="200", description="Fetch user's posts")
  * )
  */
 Flight::route('GET /user/posts', function () {
     Flight::json(Flight::postService()->get_posts_by_id(Flight::get('user')['id']));
+});
+
+/**
+ * @OA\Get(path="/posts/{id}", tags={"posts"}, security={{"ApiKeyAuth": {}}},
+ *    @OA\Parameter(type="integer", in="path", name="id", default=1, description="ID of post"),
+ *    @OA\Response(response="200", description="Fetch post by id")
+ * )
+ */
+Flight::route('GET /posts/@id', function ($id) {
+    Flight::json(Flight::postService()->get_posts_by_its_id($id));
 });
 
 /**
@@ -33,7 +43,7 @@ Flight::route('GET /user/posts', function () {
  *              )
  *          )
  *      ),
- *      @OA\Response(response="200", description="Account that has been added to the database with ID assigned")
+ *      @OA\Response(response="200", description="Post that has been added to the database.")
  * )
  * 
  */
@@ -79,7 +89,7 @@ Flight::route('POST /user/car/posts/@car_id', function ($car_id) {
  *              )
  *          )
  *      ),
- *    @OA\Response(response="200", description="Update post based on id")
+ *    @OA\Response(response="200", description="Updated post based on id")
  * )
  */
 //Route to update account table
