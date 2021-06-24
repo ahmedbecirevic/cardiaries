@@ -10272,3 +10272,8 @@ body {
 .modal {
   overflow-y: auto !important;
 }
+
+.search-vin-box {
+  margin-top: 11%;
+  margin-bottom: 11%;
+}
