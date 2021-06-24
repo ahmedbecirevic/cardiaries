@@ -137,10 +137,15 @@
         <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script src="//cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 
+        <!-- include controllers -->
+        <script src="./assets/js/controllers/accounts.js"></script>
+        <script src="./assets/js/restClient.js"></script>
+
         <!-- Router -->
         <script type="text/javascript">
             $(document).ready(function() {
                 var app = $.jQuerySPApp({defaultView  : "home"}) // initialize
+                app.route({view : "tables", load : "tables.html", onReady: function() { Accounts.init() }});
                 app.run()
 
                 if ( !window.localStorage.getItem("token") ) {

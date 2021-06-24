@@ -24,7 +24,7 @@
                         <!-- modal to display cars -->
                     
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade bd-example-modal-lg" id="get-car-from-vin-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -61,7 +61,7 @@
                                 <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Enter vehicle VIN"
                                 aria-label="Search" name="vin">
                                 <!-- triggers modal and ajax call to get car by VIN -->
-                                <button class="fas fa-search" aria-hidden="true" data-toggle="modal" data-target="#exampleModalCenter" onclick="listPostsByVIN()"></button>
+                                <button class="fas fa-search" aria-hidden="true" data-toggle="modal" onclick="listPostsByVIN()"></button>
                             </form>
                         </div>
                         <!-- Log In! -->
@@ -239,19 +239,21 @@
                     contentType: 'application/json',
                     success: function(data) {
                         console.log(data);
-                        console.log(data.model_name);
-                        let html = "";
-                        html += '<div class="card-body">' + 
-                                '<h4 class="card-title">' + data.model_name + '</h4>' +
-                                '<p class="card-text">' + data.year_of_production + '</p>' +
-                                '<p class="card-text">' + data.manufacturer + '</p>' +
-                                '<p class="card-text">' + data.mileage + '</p>' +
-                                '<p class="card-text">' + data.num_of_doors + '</p>' +
-                                '<p class="card-text">' + data.vin + '</p>' +
-                                '<p class="card-text">' + data.year_of_production + '</p>' +
-                        '</div>';
-                       
-                        $("#cars-insert").html(html)
+                        if ( !jQuery.isEmptyObject(data) ) {
+                            $("#get-car-from-vin-modal").modal("show");
+                            let html = "";
+                            html += '<div class="card-body"><h4 class="card-title">' + data.model_name + '</h4>' +
+                                    '<p class="card-text">' + data.year_of_production + '</p>' +
+                                    '<p class="card-text">' + data.manufacturer + '</p>' +
+                                    '<p class="card-text">' + data.mileage + '</p>' +
+                                    '<p class="card-text">' + data.num_of_doors + '</p>' +
+                                    '<p class="card-text">' + data.vin + '</p>' +
+                                    '<p class="card-text">' + data.year_of_production + '</p>' +
+                            '</div>';
+                            $("#cars-insert").html(html)
+                        } else {
+                            toastr.error("No car with this VIN has been found!");
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);

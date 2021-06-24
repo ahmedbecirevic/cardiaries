@@ -20,37 +20,43 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $("#cars-table").on("draw.dt", function () {
-            $(this).find(".dataTables_empty").parents('tbody').empty();
-        }).DataTable({
-                    "preDrawCallback": function( settings ) {
-                        settings._iRecordsTotal = 200;
-                        settings._iRecordsDisplay = 200;
+    // $(document).ready(function() {
+    //     $("#cars-table").on("draw.dt", function () {
+    //         $(this).find(".dataTables_empty").parents('tbody').empty();
+    //     }).DataTable({
+    //                 "preDrawCallback": function( settings ) {
+    //                     settings._iRecordsTotal = 200;
+    //                     settings._iRecordsDisplay = 200;
 
-                    },
-                    processing: true, 
-                    serverSide: true,
-                    pagingType: "simple",
-                    ajax: {
-                        url: 'api/accounts',
-                        type: 'GET',
-                        beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
-                        "dataSrc": "",
-                        data: function (d) {
-                            d.offset = d.start;
-                            d.limit = d.length;
-                            d.search = d.search.value;
-                            d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+") + d.columns[d.order[0].column].data);
-                            console.log(d);
-                        }
-                    },
-                    columns: [
-                        { "data": "id" },
-                        { "data": "name" },
-                        { "data": "status" },
-                        { "data": "created_at" }
-                    ]
-                })
-    });
+    //                 },
+    //                 processing: true, 
+    //                 serverSide: true,
+    //                 pagingType: "simple",
+    //                 ajax: {
+    //                     url: 'api/accounts',
+    //                     type: 'GET',
+    //                     beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
+    //                     dataSrc: function ( resp ) {
+    //                         console.log(resp);
+    //                         return resp;
+    //                     },
+    //                     data: function (d) {
+    //                         d.offset = d.start;
+    //                         d.limit = d.length;
+    //                         d.search = d.search.value;
+    //                         d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+") + d.columns[d.order[0].column].data);
+    //                         console.log(d);
+    //                     }
+    //                 },
+    //                 columns: [
+    //                     { "data": "id" ,
+    //                         "render": function ( data, type, row, meta ) {
+    //                             return '<div style="min-width: 60px;"> <span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onclick="EmailTemplate.pre_edit('+data+')"><i class="fa fa-edit"></i></a> </div>';
+    //                         }},
+    //                     { "data": "name" },
+    //                     { "data": "status" },
+    //                     { "data": "created_at" }
+    //                 ]
+    //             })
+    // });
 </script>
