@@ -33,7 +33,22 @@ class Posts {
                // this case handles inserting the post which is the first for the car that it belongs to
                let elementCarId = "car" + carId;
                let postId = "post-insert" + carId;
-               html += `<div class="card mb-4"><div class="card-header"><i class="fas fa-car mr-1"></i><p id="${elementCarId}">${carId}</p> posts!</div><div class="card"><div class="card-body" id="${postId}"><button id="add-post-modal-launch" onclick="Posts.preEditCarIdToPost(${data[i].car_id})" class="btn btn-success my-2" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#addPostModal">+ Add Post</button><p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="${data[i].image_url}" alt="Card image cap"></div></div></div>`;
+               html += `<div class="card mb-4">
+                           <div class="card-header">
+                              <i class="fas fa-car mr-1"></i><p id="${elementCarId}">${carId}</p> posts!
+                           </div>
+                           <div class="card">
+                              <div class="card-body" id="${postId}">
+                                 <button id="add-post-modal-launch" onclick="Posts.preEditCarIdToPost(${data[i].car_id})" class="button button--skoll mb-3" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#addPostModal"><span><span>Add</span></span></button>
+                                 <button id="edit-post-button" class="button button--mimas float-right"><span>Edit Post</span></button>
+                                 <p class="card-text"> ${data[i].body} </p>
+                                 <p class="card-text">
+                                 <small class="text-muted">Post created at:  ${data[i].created_at} </small>
+                                 </p>
+                                 <img id="image" class="card-img-bottom" src="${data[i].image_url}" alt="Card image cap">
+                              </div>
+                           </div>
+                        </div>`;
                $("#posts-group-by-car").append(html);
             }
          }
@@ -41,7 +56,13 @@ class Posts {
    }
 
    static updatePost (post) {
+      const postId = post['id'];
+      delete post['car_id'];
+      delete post['id'];
+      RestClient.put('api/posts/' + postId, post, function (data) {
+         toastr.success("Post successfully updated!");
 
+      })
    }
 
    static addPost (post) {
