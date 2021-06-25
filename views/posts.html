@@ -1,16 +1,16 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="addPostModal" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <form class="mt-3 needs-validation" id="add-post-form" novalidate>
             <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Add New Post</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="x-reset-form-modal" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="id"/>
-                <input type="hidden" name="car_id"/>
+                <input type="hidden" id="hidden_id" name="id"/>
+                <input type="hidden" id="hidden_car_id" name="car_id"/>
                 <div class="form-group">
                     <label>Post description</label>
                     <textarea id="post-body" class="form-control" name="body" rows="3" minlength="5" required></textarea>
@@ -28,7 +28,7 @@
                     <input type="file" class="form-control" onchange="Posts.file2Base64(this)" id="formFile">
                     </div>
                 </div>
-                <input type="hidden" name="image_url"/>
+                <input type="hidden" name="image_url" id="image_url_id"/>
             </div>
             <div class="modal-footer">
             <button type="reset" class="btn btn-secondary" data-dismiss="modal" id="reset-form-modal">Close</button>
