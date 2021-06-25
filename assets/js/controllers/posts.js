@@ -67,6 +67,7 @@ class Posts {
       $("#add-post-button").prop('disabled', true);  
       $("#add-post-form *[name='car_id']").val(carId);
       $("#addPostModal").modal("show");
+      $("#upload-img").hide();
    }
 
    static file2Base64 (event) {
@@ -89,6 +90,7 @@ class Posts {
             RestClient.post('api/upload', upload, function(data) {
                console.log(data);
                $('#upload-img').attr('src',data.url);
+               $("#upload-img").show();
                $("#add-post-form *[name='image_url']").val(data.url);
                toastr.success("Image uploaded!");
                $("#add-post-button").prop('disabled', false);
@@ -136,6 +138,7 @@ class Posts {
          document.getElementById('post-body').value = "";
          $('#upload-img').attr('src', '');
          document.getElementById('image_url_id').value = "";
+         $("#upload-img").hide();
    }
 
 }
