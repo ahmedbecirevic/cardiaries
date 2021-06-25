@@ -140,6 +140,7 @@
         <!-- include controllers -->
         <script src="./assets/js/controllers/accounts.js"></script>
         <script src="./assets/js/controllers/posts.js"></script>
+        <script src="./assets/js/controllers/cars.js"></script>
 
         <script src="./assets/js/restClient.js"></script>
 
@@ -153,6 +154,8 @@
                 var app = $.jQuerySPApp({defaultView  : "home"}) // initialize
                 app.route({view : "tables", load : "tables.html", onReady: function() { Accounts.init() }});
                 app.route({view : "posts", load : "posts.html", onReady: function() { Posts.init() }});
+                app.route({view : "cars", load : "cars.html", onReady: function() { Cars.init() }});
+
 
                 app.run()
 

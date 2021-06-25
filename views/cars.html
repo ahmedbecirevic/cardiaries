@@ -18,32 +18,16 @@
         </div>
     </div> 
 </div>
-
-<script>
-    const getCars = () => {
-        $.ajax({
-            url: 'api/user/cars',
-            type: 'GET',
-            beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
-            success: function(data) {
-                console.log(data)
-                let html = "";
-                if (jQuery.isEmptyObject(data)) {
-                    html += '<h4 class="card-title">You don\'t have any cars</h4>'
-                } else {
-                    for (let i = 0; i < data.length; i++) {
-                        html += 
-                                    '<div class="card-body">' + 
-                                        '<h4 class="card-title">' + data[i].model_name + '</h4>' +
-                                        '<p class="card-text">' + data[i].year_of_production + '</p>' +
-                                        '<p class="card-text">' + data[i].mileage + '</p>' +
-                                    '</div>'
-                    }
-                }
-                $("#cars-insert .card-body").html(html)
-            }
-        }) 
-    }
-
-    getCars();
-</script>
+<div class="card text-center">
+    <div class="card-header">
+      ${data[i].model_name}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Special title treatment</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
