@@ -1,16 +1,16 @@
-<button id="add-post-modal-launch" class="btn btn-success mt-4" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#addPostModal">+ Add Post</button>
-
 <div class="modal fade" tabindex="-1" role="dialog" id="addPostModal" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
     <div class="modal-content">
         <form class="mt-3 needs-validation" id="add-post-form" novalidate>
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add New Post</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Add New Post</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id"/>
+                <input type="hidden" name="car_id"/>
                 <div class="form-group">
                     <label>Post description</label>
                     <textarea id="post-body" class="form-control" name="body" rows="3" minlength="5" required></textarea>
@@ -19,21 +19,21 @@
                     </div>
                     <div class="invalid-feedback">
                         Please enter more than 5 characters for the description of the post!
-                      </div>
+                    </div>
                 </div>
                 <img id="upload-img" src="" class="img-fluid" alt="Waiting for upload"/>
                 <div class="form-group">
                     <div class="mb-3">
                     <label for="formFile">Choose the photo you want to add</label>
-                    <input type="file" class="form-control" name="image_link" onchange="Posts.file2Base64(this)" id="formFile">
+                    <input type="file" class="form-control" name="image_url" onchange="Posts.file2Base64(this)" id="formFile">
                     </div>
                 </div>
-        </div>
-        <div class="modal-footer">
-        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button class="btn btn-dark" type="submit" id="add-post-button">Add Post</button>
-        </div>
-    </form>
+            </div>
+            <div class="modal-footer">
+            <button type="reset" class="btn btn-secondary" data-dismiss="modal" id="reset-form-modal">Close</button>
+            <button class="btn btn-dark" type="submit" id="add-post-button">Add Post</button>
+            </div>
+        </form>
     </div>
     </div>
 </div>
@@ -43,7 +43,7 @@
     <li class="breadcrumb-item active">Collection of post from every car.</li>
 </ol>
 <div id="posts-group-by-car">
-
+    
 </div>
 
   

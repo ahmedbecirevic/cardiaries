@@ -1,59 +1,67 @@
 class Posts {
    static init () {
+      $("#add-post-form").validate({
+         submitHandler: function(form, event) {
+            event.preventDefault();
+            const data = Utility.jsonizeForm($(form));
+            console.log(data);
+            // if (data.id){
+            //    Posts.updatePost(data);
+            // }else{
+            //    Posts.addPost(data);
+            // }
+         }
+      });
       Posts.getPosts();
       Posts.modalEnable();
    }
     
    static getPosts () {
-      // $.ajax({
-      //    url: 'api/user/posts',
-      //    type: 'GET',
-      //    beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},
-      //    success: function(data) {
-      //       console.log(data);
-      //       let html = "";
-      //       // if (jQuery.isEmptyObject(data)) {
-      //       //     html += '<h4 class="card-title">You don\'t have any posts</h4>';
-      //       // } else {
-      //       for (let i = 0; i < data.length; i++) {
-      //          const carId = data[i].car_id;
-      //          let postHtml = "";
-      //          if (document.getElementById("car" + carId)) { //retrns true if there is elements with such ID
-      //             let insertPostSelector = "#post-insert" + carId;
-      //             console.log(insertPostSelector);
-      //             postHtml += `<p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="./assets/img/e92m3.jpg" alt="Card image cap">`
-      //             $(insertPostSelector).append(postHtml);
-      //          } else {
-      //             let elementCarId = "car" + carId;
-      //             let postId = "post-insert" + carId;
-      //             html += `<div class="card mb-4"><div class="card-header"><i class="fas fa-car mr-1"></i><p id="${elementCarId}">${carId}</p> posts!</div><div class="card"><div class="card-body" id="${postId}"><p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="./assets/img/e92m3.jpg" alt="Card image cap"></div></div></div>`;
-      //             $("#posts-group-by-car").append(html);
-      //          }
-      //       }
-      //    }
-      // }) 
       RestClient.get('api/user/posts', function(data) {
          console.log(data);
-         let html = "";
-         // if (jQuery.isEmptyObject(data)) {
-         //     html += '<h4 class="card-title">You don\'t have any posts</h4>';
-         // } else {
          for (let i = 0; i < data.length; i++) {
             const carId = data[i].car_id;
+            let html = "";
             let postHtml = "";
-            if (document.getElementById("car" + carId)) { //retrns true if there is elements with such ID
+            if (document.getElementById("car" + carId)) { //retrns true if there is elements with such ID which means that we already have inserted other posts for this car
                let insertPostSelector = "#post-insert" + carId;
                console.log(insertPostSelector);
                postHtml += `<p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="./assets/img/e92m3.jpg" alt="Card image cap">`
                $(insertPostSelector).append(postHtml);
             } else {
+               // this case handles inserting the post which is the first for the car that it belongs to
                let elementCarId = "car" + carId;
                let postId = "post-insert" + carId;
-               html += `<div class="card mb-4"><div class="card-header"><i class="fas fa-car mr-1"></i><p id="${elementCarId}">${carId}</p> posts!</div><div class="card"><div class="card-body" id="${postId}"><p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="./assets/img/e92m3.jpg" alt="Card image cap"></div></div></div>`;
+               html += `<div class="card mb-4"><div class="card-header"><i class="fas fa-car mr-1"></i><p id="${elementCarId}">${carId}</p> posts!</div><div class="card"><div class="card-body" id="${postId}"><button id="add-post-modal-launch" onclick="Posts.preEditCarIdToPost(${data[i].car_id})" class="btn btn-success my-2" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#addPostModal">+ Add Post</button><p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="./assets/img/e92m3.jpg" alt="Card image cap"></div></div></div>`;
                $("#posts-group-by-car").append(html);
             }
          }
       })
+   }
+
+   static updatePost (post) {
+
+   }
+
+   static addPost (post) {
+      RestClient.post("api/user/car/posts/" + post.car_id, post, function (data) {
+         toastr.success("New post has been added!");
+         Posts.getPosts();
+         $("#add-email-template").trigger("reset");
+         $('#addPostModal').modal("hide");
+      })
+   }
+
+   static pre_edit(id){
+      RestClient.get("api/posts/"+id, function(data){
+         Utility.json2form("#add-post-form", data);
+         $("#addPostModal").modal("show");
+      });
+   }
+
+   static preEditCarIdToPost (carId) {
+      $("#add-post-form[name='car_id']").val(carId);
+      $("#addPostModal").modal("show");
    }
 
    static file2Base64 (event) {
@@ -109,5 +117,10 @@ class Posts {
       $('#add-post-modal-launch').click(function () {
          $('#addPostModal').modal({show : true});
       });
+
+      $("#reset-form-modal").click(function () {
+         $("#add-post-form")[0].reset();
+      });
    }
+
 }

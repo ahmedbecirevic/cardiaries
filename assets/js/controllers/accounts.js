@@ -71,7 +71,7 @@ class Accounts {
 
    static pre_edit(id){
       RestClient.get("api/user/email_templates/"+id, function(data){
-        AUtils.json2form("#add-email-template", data);
+         Utility.json2form("#add-email-template", data);
         $("#add-email-template-modal").modal("show");
       });
    }
