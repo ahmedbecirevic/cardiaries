@@ -27,7 +27,7 @@ class Posts {
             let postHtml = "";
             if (document.getElementById("car" + carId)) { //retrns true if there is elements with such ID which means that we already have inserted other posts for this car
                let insertPostSelector = "#post-insert" + carId;
-               postHtml += `<p class="card-text"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom" src="${data[i].image_url}" alt="Card image cap">`
+               postHtml += `<button id="edit-post-button" onclick="Posts.pre_edit(${data[i].id})" class="btn btn-light float-right my-3"><span>Edit Post</span></button> <p class="card-text mt-4"> ${data[i].body} </p><p class="card-text"><small class="text-muted">Post created at:  ${data[i].created_at} </small></p><img id="image" class="card-img-bottom mb-2" src="${data[i].image_url}" alt="Card image cap"><hr>`
                $(insertPostSelector).append(postHtml);
             } else {
                // this case handles inserting the post which is the first for the car that it belongs to
@@ -35,17 +35,19 @@ class Posts {
                let postId = "post-insert" + carId;
                html += `<div class="card mb-4">
                            <div class="card-header">
-                              <i class="fas fa-car mr-1"></i><p id="${elementCarId}">${carId}</p> posts!
+                              <p id="${elementCarId}"><i class="fas fa-car mr-1"></i>${carId} posts!</p>
                            </div>
                            <div class="card">
                               <div class="card-body" id="${postId}">
-                                 <button id="add-post-modal-launch" onclick="Posts.preEditCarIdToPost(${data[i].car_id})" class="button button--skoll mb-3" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#addPostModal"><span><span>Add</span></span></button>
-                                 <button id="edit-post-button" class="button button--mimas float-right"><span>Edit Post</span></button>
-                                 <p class="card-text"> ${data[i].body} </p>
+                                 <button id="add-post-modal-launch" onclick="Posts.preEditCarIdToPost(${data[i].car_id})" class="btn btn-info my-3" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#addPostModal">Add Post</button>
+                                 <hr>
+                                 <button id="edit-post-button" onclick="Posts.pre_edit(${data[i].id})" class="btn btn-light float-right my-3"><span>Edit Post</span></button>
+                                 <p class="card-text mt-4"> ${data[i].body} </p>
                                  <p class="card-text">
                                  <small class="text-muted">Post created at:  ${data[i].created_at} </small>
                                  </p>
-                                 <img id="image" class="card-img-bottom" src="${data[i].image_url}" alt="Card image cap">
+                                 <img id="image" class="card-img-bottom mb-2" src="${data[i].image_url}" alt="Card image cap">
+                                 <hr>
                               </div>
                            </div>
                         </div>`;
@@ -61,7 +63,19 @@ class Posts {
       delete post['id'];
       RestClient.put('api/posts/' + postId, post, function (data) {
          toastr.success("Post successfully updated!");
+         $("#add-post-form").trigger("reset");
+         $('#addPostModal').modal("hide");
+         Posts.getPosts();
+      })
+   }
 
+   static pre_edit(id){
+      RestClient.get("api/posts/" + id, function (data) {
+         Utility.json2form("#add-post-form", data);
+         $("#addPostModal").modal("show");
+         $("#add-post-form *[name='id']").val(id);
+         $('#upload-img').attr('src', data.image_url);
+         $("#add-post-form ").val(id);
       })
    }
 
@@ -75,13 +89,6 @@ class Posts {
          $('#addPostModal').modal("hide");
          Posts.getPosts();
       })
-   }
-
-   static pre_edit(id){
-      RestClient.get("api/posts/"+id, function(data){
-         Utility.json2form("#add-post-form", data);
-         $("#addPostModal").modal("show");
-      });
    }
 
    static preEditCarIdToPost (carId) {
