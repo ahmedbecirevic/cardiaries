@@ -5,11 +5,11 @@ class Posts {
             event.preventDefault();
             const data = Utility.jsonizeForm($(form));
             console.log(data);
-            // if (data.id){
-            //    Posts.updatePost(data);
-            // }else{
-            //    Posts.addPost(data);
-            // }
+            if (data.id){
+               Posts.updatePost(data);
+            }else{
+               Posts.addPost(data);
+            }
          }
       });
       Posts.getPosts();
@@ -44,7 +44,11 @@ class Posts {
    }
 
    static addPost (post) {
-      RestClient.post("api/user/car/posts/" + post.car_id, post, function (data) {
+      const carId = post['car_id'];
+      delete post['car_id'];
+      delete post['id'];
+      console.log("in the addPost: " + post);
+      RestClient.post("api/user/car/posts/" + carId, post, function (data) {
          toastr.success("New post has been added!");
          Posts.getPosts();
          $("#add-email-template").trigger("reset");
@@ -60,7 +64,7 @@ class Posts {
    }
 
    static preEditCarIdToPost (carId) {
-      $("#add-post-form[name='car_id']").val(carId);
+      $("#add-post-form *[name='car_id']").val(carId);
       $("#addPostModal").modal("show");
    }
 
@@ -84,6 +88,7 @@ class Posts {
             RestClient.post('api/upload', upload, function(data) {
                console.log(data);
                $('#upload-img').attr('src',data.url);
+               $("#add-post-form *[name='image_url']").val(data.url);
                toastr.success("Image uploaded!");
                $("#add-post-button").prop('disabled', false);
             })                     

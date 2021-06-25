@@ -25,9 +25,10 @@
                 <div class="form-group">
                     <div class="mb-3">
                     <label for="formFile">Choose the photo you want to add</label>
-                    <input type="file" class="form-control" name="image_url" onchange="Posts.file2Base64(this)" id="formFile">
+                    <input type="file" class="form-control" onchange="Posts.file2Base64(this)" id="formFile">
                     </div>
                 </div>
+                <input type="hidden" name="image_url"/>
             </div>
             <div class="modal-footer">
             <button type="reset" class="btn btn-secondary" data-dismiss="modal" id="reset-form-modal">Close</button>
