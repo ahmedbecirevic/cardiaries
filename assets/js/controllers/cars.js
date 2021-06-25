@@ -6,20 +6,21 @@ class Cars {
 
    static getCars () {
       RestClient.get('api/user/cars', function(data) {
-         let html = "";
-         if (jQuery.isEmptyObject(data)) {
-               html += '<h4 class="card-title">You don\'t have any cars</h4>'
-         } else {
-               for (let i = 0; i < data.length; i++) {
-               html += 
-                     '<div class="card-body">' + 
-                           '<h4 class="card-title">' + data[i].model_name + '</h4>' +
-                           '<p class="card-text">' + data[i].year_of_production + '</p>' +
-                           '<p class="card-text">' + data[i].mileage + '</p>' +
-                     '</div>'
-               }
+         console.log(data)
+         for (let i = 0; i < data.length; i++) {
+            let html = "";
+            html += `<div class="card text-center">
+                        <div class="card-body">
+                        <h5 class="card-title">${data[i].model_name}</h5>
+                        <p class="card-text">Procution year: ${data[i].year_of_production} <br> Mileage: ${data[i].mileage} <br> Doors: ${data[i].num_of_doors} <br> Mileage: ${data[i].mileage} <br> Engine power (kw): ${data[i].engine_power_kw} <br> Manufacturer: ${data[i].manufacturer}</p>
+                        <a href="#" class="btn btn-primary">View Posts</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                           VIN: ${data[i].vin}
+                        </div>
+                     </div>`;
+            $("#cars-insert").append(html);
          }
-         $("#cars-insert .card-body").html(html)
-      })
+      });
    }
 }
