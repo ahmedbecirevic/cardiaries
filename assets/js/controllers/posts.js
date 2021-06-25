@@ -73,6 +73,7 @@ class Posts {
    static file2Base64 (event) {
       console.log(event.files)
       $("#add-post-button").prop('disabled', true);
+      $('#overlay').fadeIn();
 
       const file = event.files[0];
       const reader = new FileReader();
@@ -89,6 +90,7 @@ class Posts {
 
             RestClient.post('api/upload', upload, function(data) {
                console.log(data);
+               $('#overlay').fadeOut();
                $('#upload-img').attr('src',data.url);
                $("#upload-img").show();
                $("#add-post-form *[name='image_url']").val(data.url);
