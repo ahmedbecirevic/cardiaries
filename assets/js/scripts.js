@@ -13,8 +13,8 @@
     //             $(this).addClass("active");
     //         }
     //     });
-    $("#layoutSidenav_nav .sb-sidenav a.nav-link").on("click", function(){
-        $("#layoutSidenav_nav .sb-sidenav").find(".active").removeClass("active");
+    $("#top-nav-bar .nav-item .nav-link").on("click", function(){
+        $("#top-nav-bar .nav-item").find(".active").removeClass("active");
         $(this).addClass("active");
      });
 

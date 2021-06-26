@@ -8,6 +8,7 @@ class Cars {
 
 
    static getCars () {
+      $("#cars-insert").empty();
       RestClient.get('api/user/cars', function(data) {
          console.log(data)
          for (let i = 0; i < data.length; i++) {
@@ -16,7 +17,7 @@ class Cars {
                         <div class="card-body">
                         <h5 class="card-title">${data[i].model_name}</h5>
                         <p class="card-text">Procution year: ${data[i].year_of_production} <br> Mileage: ${data[i].mileage} <br> Doors: ${data[i].num_of_doors} <br> Mileage: ${data[i].mileage} <br> Engine power (kw): ${data[i].engine_power_kw} <br> Manufacturer: ${data[i].manufacturer}</p>
-                        <button type="button" data-toggle="modal" id="view-posts-button" onclick="Cars.openModalShowPosts(${data[i].id})" class="btn btn-primary">View Posts</button>
+                        <button type="button" data-toggle="modal" id="view-posts-button" onclick="Cars.openModalShowPosts(${data[i].id})" class="btn btn-info">View Posts</button>
                         </div>
                         <div class="card-footer text-muted">
                            VIN: ${data[i].vin}
