@@ -5,15 +5,40 @@ class Cars {
          $('#posts-from-car-modal').modal({show : true, backdrop: 'static'});
       });
 
-      
-
-      $("#add-car-button").click(function (e) { 
+      $("#collapse-trigger").click(function (e) { 
          e.preventDefault();
-         const car = Utility.jsonizeForm("#add-car-form");
-         console.log(car)
-         $('#overlay').fadeIn();
-         Cars.addCar(car);
+         $("#add-car-collapse").collapse('toggle');
       });
+
+      $("#add-car-form").validate({
+         rules: {
+           // simple rule, converted to {required:true}
+           model_name: "required",
+           year_of_production: "required",
+           vin: "required",
+           mileage: "required",
+           num_of_doors: "required",
+           engine_power_kw: "required",
+           manufacturer: "required",
+           fuel: "required"          
+         },
+         submitHandler: function(form, event) {
+            event.preventDefault();
+            const car = Utility.jsonizeForm("#add-car-form");
+            console.log(car)
+            $('#overlay').fadeIn();
+            Cars.addCar(car);
+         }
+       });
+
+      // $("#add-car-button").click(function (e) { 
+      //    e.preventDefault();
+      //    const car = Utility.jsonizeForm("#add-car-form");
+      //    console.log(car)
+      //    $('#overlay').fadeIn();
+      //    Cars.addCar(car);
+      // });
+
    }
 
    static addCar (car) {
