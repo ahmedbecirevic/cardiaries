@@ -3,8 +3,12 @@
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="posts-from-car-modal" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
+        
         <div id="insert-posts-from-car">
-            
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
         </div>
     </div>
   </div>
@@ -16,5 +20,9 @@
     <li class="breadcrumb-item active">Cars</li>
 </ol>
 <div id="cars-insert">
-    
+    <div id="overlay" style="display:none;">
+        <div class="spinner"></div>
+        <br/>
+        Loading...
+    </div>
 </div>

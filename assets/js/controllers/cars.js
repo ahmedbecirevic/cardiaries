@@ -29,12 +29,14 @@ class Cars {
 
    static openModalShowPosts (carId) {
       $("#posts-from-car-modal").modal('show');
+      $('#overlay').fadeIn();
       Cars.getPostsFromCar(carId);
    }
 
    static getPostsFromCar (carId) {
       RestClient.get('api/car/posts/' + carId, function (data) {
          console.log(data);
+         $('#overlay').fadeOut();
          for (let i = 0; i < data.length; i++) {
             let html = "";
             html = `<div class="card">
