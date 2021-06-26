@@ -75,7 +75,6 @@ class Posts {
          $("#addPostModal").modal("show");
          $("#add-post-form *[name='id']").val(id);
          $('#upload-img').attr('src', data.image_url);
-         $("#add-post-form ").val(id);
       })
    }
 

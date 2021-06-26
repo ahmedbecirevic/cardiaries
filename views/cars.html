@@ -1,4 +1,55 @@
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="update-car-modal" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form id="update-car-form">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Car</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="hidden" name="id">
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="model_name" class="form-control" placeholder="Name of the Car">
+                </div>
+                <div class="col">
+                    <input type="text" name="year_of_production" class="form-control" placeholder="Prodcution Year">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="vin" class="form-control" placeholder="VIN">
+                </div>
+                <div class="col">
+                    <input type="text" name="mileage" class="form-control" placeholder="Mileage">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="num_of_doors" class="form-control" placeholder="Number of Doors">
+                </div>
+                <div class="col">
+                    <input type="text" name="engine_power_kw" class="form-control" placeholder="Engine Power (kw)">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="manufacturer" class="form-control" placeholder="Manufacturer">
+                </div>
+                <div class="col">
+                    <input type="text" name="fuel" class="form-control" placeholder="Fuel Type">
+                </div>
+            </div>
+            <hr>
+            <div class="float-right my-3">
+                <button type="reset" class="btn btn-secondary my-1">Clear</button>
+                <button type="submit" class="btn btn-success ml-3 mr-4 my-1">Update Car</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="posts-from-car-modal" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -69,8 +120,5 @@
 </div>
 
 <h1 class="mt-5">Cars</h1>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Cars</li>
-</ol>
 <div id="cars-insert">
 </div>

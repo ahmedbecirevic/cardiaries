@@ -10280,7 +10280,7 @@ body {
 
 #overlay {
   background: #ffffff;
-  color: #666666;
+  color: #000000;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -10321,4 +10321,10 @@ body {
 
 #add-car-form .row {
   margin-top: 1rem;
+}
+
+#update-car-form .row {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
