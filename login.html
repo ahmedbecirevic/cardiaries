@@ -21,8 +21,7 @@
             <div id="layoutAuthentication_content">
                 <main>
                     <div class="container">
-                        <!-- modal to display cars -->
-                    
+                        <!-- modal to display car -->
                         <!-- Modal triggered by search box onclick func-->
                         <div class="modal fade bd-example-modal-lg" id="get-car-from-vin-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -36,7 +35,7 @@
                                 <div class="modal-body">
                                     <div class="card mb-4">
                                         <div class="card-header">
-                                            <i class="fas fa-table mr-1"></i>
+                                            <i class="fas fa-car mr-1"></i>
                                             Info about the car!
                                         </div>
                                         <div class="card" id="cars-insert">
@@ -72,13 +71,13 @@
                                             </div>
                                          
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" onclick="showForgotForm()">Forgot Password?</a>
-                                                <button id="login-link" class="btn btn-primary" onclick="doLogin()">Login</button>
+                                                <a class="small" onclick="Login.showForgotForm()">Forgot Password?</a>
+                                                <button id="login-link" class="btn btn-primary" onclick="Login.doLogin()">Login</button>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showRegisterForm()">Need an account? Sign up!</button></div>
+                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="Login.showRegisterForm()">Need an account? Sign up!</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -118,11 +117,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group mt-4 mb-0"><button id="register-link" class="btn btn-primary btn-block" onclick="doRegister()">Create Account</button></div>
+                                            <div class="form-group mt-4 mb-0"><button id="register-link" class="btn btn-primary btn-block" onclick="Login.doRegister()">Create Account</button></div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showLoginForm()">Have an account? Go to login</button></div>
+                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="Login.showLoginForm()">Have an account? Go to login</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -138,13 +137,13 @@
                                                 <input name="email" class="form-control py-4" type="email" aria-describedby="emailHelp" placeholder="Enter email address" />
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" onclick="showLoginForm()">Return to login</a>
-                                                <button id="forgot-link" class="btn btn-primary" onclick="doForgotPassword()">Reset Password</button>
+                                                <a class="small" onclick="Login.showLoginForm()">Return to login</a>
+                                                <button id="forgot-link" class="btn btn-primary" onclick="Login.doForgotPassword()">Reset Password</button>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showRegisterForm()">Need an account? Sign up!</button></div>
+                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="Login.showRegisterForm()">Need an account? Sign up!</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -162,12 +161,12 @@
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small"></a>
-                                                <button id="change-link" class="btn btn-primary" onclick="doChangePassword()">Change Password</button>
+                                                <button id="change-link" class="btn btn-primary" onclick="Login.doChangePassword()">Change Password</button>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="showRegisterForm()">Need an account? Sign up!</button></div>
+                                        <div class="small"><button type="button" class="btn btn-secondary btn-sm" onclick="Login.showRegisterForm()">Need an account? Sign up!</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +177,7 @@
                                 <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Enter vehicle VIN"
                                 aria-label="Search" name="vin">
                                 <!-- triggers modal and ajax call to get car by VIN -->
-                                <button class="fas fa-search" aria-hidden="true" data-toggle="modal" onclick="listPostsByVIN()"></button>
+                                <button class="fas fa-search" aria-hidden="true" data-toggle="modal" onclick="Login.displayCar()"></button>
                             </form>
                         </div>
                     </div>
@@ -204,153 +203,14 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="assets/js/scripts.js"></script>
         <script src="./assets/js/utils.js"></script>
+        <script src="./assets/js/restClient.js"></script>
         <script src="./assets/js/controllers/cars.js"></script>
         <script src="./assets/js/controllers/posts.js"></script>
+        <script src="./assets/js/controllers/login.js"></script>
 
         <!-- Toastr JavaScript -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-        <script type="text/javascript">
-            const getPostsByCarID = (carID) => {
-                $.ajax({
-                    url: 'api/user/car/posts/' + carID,
-                    type: 'GET',
-                    contentType: 'application/json',
-                    beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem('token'))},   
-                    success: function(data) {
-                        console.log(data);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    }
-                }); 
-            }
-
-            const listPostsByVIN = () => {
-                const carVIN = Utility.jsonizeForm("#search-vin-form");
-
-                $.ajax({
-                    url: 'api/car/' + carVIN.vin,
-                    type: 'GET',
-                    contentType: 'application/json',
-                    success: function(data) {
-                        console.log(data);
-                        if ( !jQuery.isEmptyObject(data) ) {
-                            $("#get-car-from-vin-modal").modal("show");
-                            let html = "";
-                            html += '<div class="card-body"><h4 class="card-title">' + data.model_name + '</h4>' +
-                                    '<p class="card-text">' + data.year_of_production + '</p>' +
-                                    '<p class="card-text">' + data.manufacturer + '</p>' +
-                                    '<p class="card-text">' + data.mileage + '</p>' +
-                                    '<p class="card-text">' + data.num_of_doors + '</p>' +
-                                    '<p class="card-text">' + data.vin + '</p>' +
-                                    '<p class="card-text">' + data.year_of_production + '</p>' +
-                            '</div>';
-                            $("#cars-insert").html(html)
-                        } else {
-                            toastr.error("No car with this VIN has been found!");
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    }
-                });    
-            }
-
-
-            $( function() {
-                if ( window.localStorage.getItem("token") ) {
-                    window.location = "index.html"
-                } else {
-                    $('body').show()
-                }
-                var urlParams = new URLSearchParams(window.location.search)
-                
-                if (urlParams.has('token')) {
-                    $("#change-password-token").val(urlParams.get('token'))
-                    showChangePasswordForm()
-                }
-            }) 
-
-            function doLogin () {
-                $("#login-link").prop('disabled', true)
-                $.post( "api/login", Utility.jsonizeForm("#login-form") )
-                    .done( function( data ) {
-                            window.localStorage.setItem("token", data.token)
-                            window.location = "index.html"
-                    })
-                    .fail( function (error) {
-                        $("#login-link").prop('disabled', false)
-                        toastr.error( error.responseJSON.message )
-                    })
-            };
-
-            function doRegister () { 
-                $("#register-link").prop('disabled', true)
-                $.post( "api/register", Utility.jsonizeForm("#register-form") )
-                    .done( function( data ) {
-                        $("#register-form-container").hide()
-                        $("#form-alert").show().html(data.message)
-                    })
-                    .fail( function (error) {
-                        $("#register-link").prop('disabled', false)
-                        toastr.error( error.responseJSON.message )
-                    })
-            }
-
-            function doForgotPassword() { 
-                $("#forgot-link").prop('disabled', true)
-                $.post( "api/forgot", Utility.jsonizeForm("#forgot-form") )
-                    .done( function( data ) {
-                        $("#forgot-form-container").hide()
-                        $("#form-alert").show().html(data.message)
-                    })
-                    .fail( function (error) {
-                        $("#forgot-link").prop('disabled', false)
-                        toastr.error( error.responseJSON.message )
-                    })
-            }
-
-            function doChangePassword() { 
-                $("#change-link").prop('disabled', true)
-                $.post( "api/reset", Utility.jsonizeForm("#change-form") )
-                    .done( function( data ) {
-                        // set the token the /reset route returns(JWT), different from reset password token
-                        window.localStorage.setItem("token", data.token)
-                        window.location = "index.html"
-                    })
-                    .fail( function (error) {
-                        $("#change-link").prop('disabled', false)
-                        toastr.error( error.responseJSON.message )
-                    })
-             }
-
-            function showChangePasswordForm () {
-                $("#change-form-container").show();
-                $("#forgot-form-container").hide();
-                $("#login-form-container").hide();
-                $("#register-form-container").hide();
-            }
-
-            function showRegisterForm () {
-                $("#forgot-form-container").hide();
-                $("#login-form-container").hide();
-                $("#register-form-container").show();
-                $(".search-vin-box").hide();
-            }
-
-            function showLoginForm () {
-                $("#forgot-form-container").hide();
-                $("#register-form-container").hide();
-                $("#login-form-container").show();
-                $(".search-vin-box").show();
-            }
-
-            function showForgotForm () {
-                $("#login-form-container").hide();
-                $("#forgot-form-container").show();
-                $(".search-vin-box").hide();
-            }
-        </script>
+        <script>Login.init()</script>
     </body>
 </html>

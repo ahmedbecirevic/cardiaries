@@ -83,10 +83,10 @@ class Cars {
                         <h5 class="card-title">${data[i].model_name}</h5>
                         <p class="card-text">Procution year: ${data[i].year_of_production} <br> Mileage: ${data[i].mileage} <br> Doors: ${data[i].num_of_doors} <br> Fuel: ${data[i].fuel} <br> Engine power (kw): ${data[i].engine_power_kw} <br> Manufacturer: ${data[i].manufacturer}</p>
                         <li class="list-inline-item mt-2">
-                           <button type="button" data-toggle="modal" id="view-posts-button" onclick="Cars.openModalShowPosts(${data[i].id})" class="btn btn-info btn-sm rounded-0"><i class="fa fa-arrows-alt fa-2x"></i></button>
+                           <button type="button" data-toggle="modal" id="view-posts-button" onclick="Cars.openModalShowPosts(${data[i].id})" class="btn btn-info btn-sm rounded-0"><i class="fa fa-arrows-alt fa-lg"></i></button>
                         </li>
                         <li class="list-inline-item mt-2">
-                           <button class="btn btn-success btn-sm rounded-0" type="button" data-placement="top" title="Edit" onclick="Cars.preEditModal(${data[i].id})"><i class="fa fa-edit fa-2x"></i></button>
+                           <button class="btn btn-success btn-sm rounded-0" type="button" data-placement="top" title="Edit" onclick="Cars.preEditModal(${data[i].id})"><i class="fa fa-edit fa-lg"></i></button>
                         </li>
                         </div>
                         <div class="card-footer text-muted">
