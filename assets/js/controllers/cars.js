@@ -52,4 +52,8 @@ class Cars {
          }
       });
    }
+
+   static modalClose () {
+      $("#insert-posts-from-car").html("");
+   }
 }

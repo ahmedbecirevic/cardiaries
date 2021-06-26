@@ -163,12 +163,11 @@ class Posts {
 
    static clearModalForm () {
       $("#add-post-form").trigger("reset");
-         document.getElementById('hidden_id').value = "";
-         document.getElementById('hidden_car_id').value = "";
-         document.getElementById('post-body').value = "";
-         $('#upload-img').attr('src', '');
-         document.getElementById('image_url_id').value = "";
-         $("#upload-img").hide();
+      document.getElementById('hidden_id').value = "";
+      document.getElementById('hidden_car_id').value = "";
+      document.getElementById('post-body').value = "";
+      $('#upload-img').attr('src', '');
+      document.getElementById('image_url_id').value = "";
+      $("#upload-img").hide();
    }
-
 }
