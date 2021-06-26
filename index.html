@@ -15,7 +15,7 @@
         <link href="./assets/css/jQuerySPApp.css" rel="stylesheet"/>
         
         <link href="assets/css/styles.css" rel="stylesheet" />
-        <link href="assets/css/customStyles.css" rel="stylesheet" />
+        <!-- <link href="assets/css/customStyles.css" rel="stylesheet" /> -->
         
         <script src="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
         
@@ -29,7 +29,6 @@
         <!-- Toastr CSS -->
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
         
-
     </head>
 
     <body class="sb-nav-fixed" style="display:none">
@@ -141,6 +140,7 @@
         <script src="./assets/js/controllers/accounts.js"></script>
         <script src="./assets/js/controllers/posts.js"></script>
         <script src="./assets/js/controllers/cars.js"></script>
+        <script src="./assets/js/controllers/home.js"></script>
 
         <script src="./assets/js/restClient.js"></script>
 
@@ -152,6 +152,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 var app = $.jQuerySPApp({defaultView  : "home"}) // initialize
+                app.route({view : "home", load : "home.html", onReady: function() { Home.init() }});
                 app.route({view : "tables", load : "tables.html", onReady: function() { Accounts.init() }});
                 app.route({view : "posts", load : "posts.html", onReady: function() { Posts.init() }});
                 app.route({view : "cars", load : "cars.html", onReady: function() { Cars.init() }});

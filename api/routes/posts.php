@@ -30,6 +30,16 @@ Flight::route('GET /posts/@id', function ($id) {
 });
 
 /**
+ * @OA\Get(path="/car/posts/{id}", tags={"posts"}, security={{"ApiKeyAuth": {}}},
+ *    @OA\Parameter(type="integer", in="path", name="id", default=1, description="ID of car"),
+ *    @OA\Response(response="200", description="Fetch posts of a car")
+ * )
+ */
+Flight::route('GET /car/posts/@id', function ($id) {
+    Flight::json(Flight::postService()->get_posts_by_car_id($id));
+});
+
+/**
  * 
  * @OA\Post(path="/posts", tags={"posts"}, security={{"ApiKeyAuth": {}}},
  *      @OA\RequestBody(
