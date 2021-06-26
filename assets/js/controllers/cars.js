@@ -4,11 +4,30 @@ class Cars {
       $("#view-posts-button").click(function () {
          $('#posts-from-car-modal').modal({show : true, backdrop: 'static'});
       });
+
+      
+
+      $("#add-car-button").click(function (e) { 
+         e.preventDefault();
+         const car = Utility.jsonizeForm("#add-car-form");
+         console.log(car)
+         $('#overlay').fadeIn();
+         Cars.addCar(car);
+      });
    }
 
+   static addCar (car) {
+      RestClient.post("api/cars", car, function (data) {
+         toastr.success("New car has been added!");
+         $("#add-car-form").trigger("reset");
+         $("#cars-insert").empty();
+         $('#overlay').fadeOut();
+         Cars.getCars();
+      })
+   }
 
    static getCars () {
-      $("#cars-insert").empty();
+      // $("#cars-insert").empty();
       RestClient.get('api/user/cars', function(data) {
          console.log(data)
          for (let i = 0; i < data.length; i++) {
@@ -56,5 +75,12 @@ class Cars {
 
    static modalClose () {
       $("#insert-posts-from-car").html("");
+   }
+
+   static onAddCarBtn () {
+      const car = Utility.jsonizeForm("#add-car-form");
+      console.log(car)
+      $('#overlay').fadeIn();
+      Cars.addCar(car);
    }
 }

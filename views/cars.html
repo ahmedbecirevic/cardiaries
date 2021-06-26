@@ -14,15 +14,64 @@
   </div>
 </div>
 
+
+<hr>
+<a class="btn btn-dark my-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Click here to add new car!
+</a>
+<div class="collapse" id="collapseExample">
+    <form id="add-car-form">
+        <div class="row">
+          <div class="col">
+            <input type="text" name="model_name" class="form-control" placeholder="Name of the Car">
+          </div>
+          <div class="col">
+            <input type="text" name="year_of_production" class="form-control" placeholder="Prodcution Year">
+          </div>
+        </div>
+        <div class="row">
+            <div class="col">
+            <input type="text" name="vin" class="form-control" placeholder="VIN">
+            </div>
+            <div class="col">
+            <input type="text" name="mileage" class="form-control" placeholder="Mileage">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+            <input type="text" name="num_of_doors" class="form-control" placeholder="Number of Doors">
+            </div>
+            <div class="col">
+            <input type="text" name="engine_power_kw" class="form-control" placeholder="Engine Power (kw)">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="text" name="manufacturer" class="form-control" placeholder="Manufacturer">
+            </div>
+            <div class="col">
+                <input type="text" name="fuel" class="form-control" placeholder="Fuel Type">
+            </div>
+        </div>
+        <div class="float-right my-3">
+            <button type="reset" class="btn btn-secondary mr-1">Clear</button>
+            <button id="add-car-button" class="btn btn-success ml-2">Add Car</button>
+        </div>
+    </form>
+</div>
+
+
+
 <div id="overlay" style="display:none;">
     <div class="spinner"></div>
     <br/>
     Loading...
 </div>
 
-<h1 class="mt-4">Cars</h1>
+<h1 class="mt-5">Cars</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Cars</li>
 </ol>
 <div id="cars-insert">
 </div>
+<script>$('.collapse').collapse()</script>

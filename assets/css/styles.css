@@ -10310,3 +10310,15 @@ body {
         transform: rotate(360deg);
     }
 }
+
+.nav-item .active {
+ background-color: rgba(62, 106, 126, 0.877) !important;
+}
+
+.nav-item .nav-link{
+  color:rgba(0, 0, 0, 0.5)
+}
+
+#add-car-form .row {
+  margin-top: 1rem;
+}
