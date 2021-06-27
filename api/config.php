@@ -5,49 +5,63 @@ class Config
     const JWT_SECRET = "dk*M6spn7qk6b$<5";
     const JWT_TOKEN_TIME = 604800;
 
-    public static function DB_HOST()
+    // DB connection
+    public static function DB_HOST ()
     {
         return Config::get_env("DB_HOST", "localhost");
     }
-    public static function DB_USERNAME()
+    public static function DB_USERNAME ()
     {
         return Config::get_env("DB_USERNAME", "cardiaries");
     }
-    public static function DB_PASSWORD()
+    public static function DB_PASSWORD ()
     {
         return Config::get_env("DB_PASSWORD", "cardiaries");
     }
-    public static function DB_SCHEME()
+    public static function DB_SCHEME ()
     {
         return Config::get_env("DB_SCHEME", "cardiaries");
     }
-    public static function DB_PORT()
+    public static function DB_PORT ()
     {
         return Config::get_env("DB_PORT", "3306");
     }
-    public static function SMTP_HOST()
+
+    // mail provider
+    public static function SMTP_HOST ()
     {
-        return Config::get_env("SMTP_HOST", "smtp.mailgun.org");
+        return Config::get_env("SMTP_HOST", "smtp.gmail.com");
     }
-    public static function SMTP_PORT()
+    public static function SMTP_PORT ()
     {
         return Config::get_env("SMTP_PORT", "587");
     }
-    public static function SMTP_USER()
+    public static function SMTP_USER ()
     {
-        return Config::get_env("SMTP_USER", "postmaster@sandbox236d84405d3145cfa817be35c06cc2c4.mailgun.org");
+        return Config::get_env("SMTP_USER", "ahmed.becirevic@stu.ibu.edu.ba");
     }
-    public static function SMTP_PASSWORD()
+    public static function SMTP_PASSWORD ()
     {
-        return Config::get_env("SMTP_PASSWORD", "c83c5f07b1e53dbec7efd0d04f9b9391-fa6e84b7-27e16869");
+        return Config::get_env("SMTP_PASSWORD", NULL);
     }
-    public static function SPACES_KEY()
+
+    // spaces 
+    public static function SPACES_KEY ()
     {
         return Config::get_env("SPACES_KEY", "ZE2E6JG2P3NDIQFFFZBP");
     }
-    public static function SPACES_SECRET()
+    public static function SPACES_SECRET ()
     {
         return Config::get_env("SPACES_SECRET", "EbGbuDhf7pYFJhFqeMvCJL1m0mZZvtkleBnKswZHcEU");
+    }
+
+    // environment servers setup
+    public static function ENVIRONMENT_SERVER ()
+    {
+        return Config::get_env("ENVIRONMENT_SERVER", "localhost/cardiaries/");
+    }
+    public static function PROTOCOL () {
+        return strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
     }
 
     public static function get_env($name, $default)
