@@ -108,18 +108,26 @@ class Cars {
       RestClient.get('api/car/posts/' + carId, function (data) {
          console.log(data);
          $('#overlay').fadeOut();
-         for (let i = 0; i < data.length; i++) {
-            let html = "";
-            html = `<div class="card">
-                     <div class="card-body">
-                        <p class="card-text mt-4"> ${data[i].body} </p>
-                        <p class="card-text">
-                           <small class="text-muted">Post created at:  ${data[i].created_at} </small>
-                        </p>
-                        <img id="image" class="card-img-bottom mb-2" src="${data[i].image_url}" alt="Card image cap">
-                     </div>
-                  </div>`;
-            $("#insert-posts-from-car").append(html);
+         if (!jQuery.isEmptyObject(data)) {
+            for (let i = 0; i < data.length; i++) {
+               let html = "";
+               html = `<div class="card">
+                        <div class="card-body">
+                           <p class="card-text mt-4"> ${data[i].body} </p>
+                           <p class="card-text">
+                              <small class="text-muted">Post created at:  ${data[i].created_at} </small>
+                           </p>
+                           <img id="image" class="card-img-bottom mb-2" src="${data[i].image_url}" alt="Card image cap">
+                        </div>
+                     </div>`;
+               $("#insert-posts-from-car").append(html);
+            }
+         } else {
+            $("#insert-posts-from-car").append(`<div class="card">
+                                                   <div class="card-body">
+                                                      <p class="card-text mt-2"> You don't have any added posts for this car! </p>
+                                                   </div>
+                                                </div>`);
          }
       });
    }

@@ -9,8 +9,15 @@ class Login {
       const urlParams = new URLSearchParams(window.location.search)
      
       if (urlParams.has('token')) {
-         $("#change-password-token").val(urlParams.get('token'))
-         showChangePasswordForm()
+         $("#change-password-token").val(urlParams.get('token'));
+         Login.showChangePasswordForm();
+      }
+
+      if (urlParams.has('/api/confirm/')) {
+         const url = $(location).attr('href');
+         const data = url.split('/');
+         window.localStorage.setItem("token", data.pop());
+         window.location = "index.html";
       }
 
       $("#login-form").validate({
@@ -68,8 +75,8 @@ class Login {
    static doLogin () {
       $("#login-link").prop('disabled', true);
       RestClient.post("api/login", Utility.jsonizeForm("#login-form"), function (data) {
-         window.localStorage.setItem("token", data.token)
-         window.location = "index.html"
+         window.localStorage.setItem("token", data.token);
+         window.location = "index.html";
       }, function(jqXHR, textStatus, errorThrown){
          $("#login-link").prop('disabled', false);
          toastr.error(jqXHR.responseJSON.message);
