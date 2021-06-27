@@ -72,7 +72,7 @@
                                          
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" onclick="Login.showForgotForm()">Forgot Password?</a>
-                                                <button id="login-link" class="btn btn-primary" onclick="Login.doLogin()">Login</button>
+                                                <button id="login-link" class="btn btn-primary" type="submit">Login</button>
                                             </div>
                                         </form>
                                     </div>
@@ -107,17 +107,17 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="register-username">Username</label>
-                                                <input class="form-control py-4" type="search" placeholder="Enter your username" name="username"/>
+                                                <input class="form-control py-4" type="search" autocomplete="off" placeholder="Enter your username" name="username"/>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="register-password">Password</label>
-                                                        <input class="form-control py-4" type="password" placeholder="Enter password" name="password"/>
+                                                        <input autocomplete="new-password"class="form-control py-4" type="password" placeholder="Enter password" name="password"/>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group mt-4 mb-0"><button id="register-link" class="btn btn-primary btn-block" onclick="Login.doRegister()">Create Account</button></div>
+                                            <div class="form-group mt-4 mb-0"><button id="register-link" class="btn btn-primary btn-block" type="submit">Create Account</button></div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
@@ -138,7 +138,7 @@
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" onclick="Login.showLoginForm()">Return to login</a>
-                                                <button id="forgot-link" class="btn btn-primary" onclick="Login.doForgotPassword()">Reset Password</button>
+                                                <button id="forgot-link" class="btn btn-primary" type="submit">Reset Password</button>
                                             </div>
                                         </form>
                                     </div>
@@ -161,7 +161,7 @@
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small"></a>
-                                                <button id="change-link" class="btn btn-primary" onclick="Login.doChangePassword()">Change Password</button>
+                                                <button id="change-link" class="btn btn-primary" type="submit">Change Password</button>
                                             </div>
                                         </form>
                                     </div>
@@ -184,7 +184,7 @@
                 </main>
             </div>
             <!-- FOOTER -->
-            <div id="layoutAuthentication_footer">
+            <div id="layoutAuthentication_footer" class="mt-4">
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -210,6 +210,9 @@
 
         <!-- Toastr JavaScript -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+        <!-- validation -->
+        <script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 
         <script>Login.init()</script>
     </body>

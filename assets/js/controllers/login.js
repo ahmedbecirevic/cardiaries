@@ -6,12 +6,63 @@ class Login {
          $('body').show()
       }
 
-     const urlParams = new URLSearchParams(window.location.search)
+      const urlParams = new URLSearchParams(window.location.search)
      
-     if (urlParams.has('token')) {
+      if (urlParams.has('token')) {
          $("#change-password-token").val(urlParams.get('token'))
          showChangePasswordForm()
-     }
+      }
+
+      $("#login-form").validate({
+         rules: {
+           email: "required",
+           password: "required",        
+         },
+         submitHandler: function(form, event) {
+            event.preventDefault();
+            Login.doLogin();
+         }
+      });
+
+      $("#register-form").validate({
+         rules: {
+            first_name: "required",
+            last_name: "required",  
+            email: "required",        
+            username: {
+               required: true,
+               minlength: 5
+            },        
+            password: {
+               required: true,
+               minlength: 4
+            }      
+         },
+         submitHandler: function(form, event) {
+            event.preventDefault();
+            Login.doRegister();
+         }
+      });
+
+      $("#forgot-form").validate({
+         rules: {
+           email: "required"
+         },
+         submitHandler: function(form, event) {
+            event.preventDefault();
+            Login.doForgotPassword();
+         }
+      });
+
+      $("#change-form").validate({
+         rules: {
+            password: "required"
+         },
+         submitHandler: function(form, event) {
+            event.preventDefault();
+            Login.doChangePassword();
+         }
+      });
    }
 
    static doLogin () {
@@ -21,7 +72,7 @@ class Login {
          window.location = "index.html"
       }, function(jqXHR, textStatus, errorThrown){
          $("#login-link").prop('disabled', false);
-         toastr.error(error.responseJSON.message);
+         toastr.error(jqXHR.responseJSON.message);
       })
    };
 
@@ -44,7 +95,7 @@ class Login {
       }, function(jqXHR, textStatus, errorThrown){
          $("#forgot-link").prop('disabled',false);
          $("#forgot-form-container").addClass("hidden");
-         toastr.error(error.responseJSON.message);
+         toastr.error(jqXHR.responseJSON.message);
       });
    }
 
@@ -55,7 +106,7 @@ class Login {
          window.location = "index.html";
       }, function(jqXHR, textStatus, errorThrown){
          $("#change-link").prop('disabled',false);
-         toastr.error(error.responseJSON.message);
+         toastr.error(jqXHR.responseJSON.message);
       });
    }   
 

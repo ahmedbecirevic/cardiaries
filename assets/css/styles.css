@@ -10328,3 +10328,10 @@ body {
   margin-left: 1rem;
   margin-right: 1rem;
 }
+
+.error {
+  color: rgb(16, 80, 218);
+  background-color: #FFF;
+  margin-top: 2px;
+  font-family: 'Ubuntu', sans-serif;
+}
