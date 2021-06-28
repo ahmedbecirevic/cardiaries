@@ -21,11 +21,7 @@
                         Please enter more than 5 characters for the description of the post!
                     </div>
                 </div>
-                <div id="overlay" style="display:none;">
-                    <div class="spinner"></div>
-                    <br/>
-                    Uploading...
-                </div>
+                
                 <img id="upload-img" src="" class="img-fluid" alt="Waiting for upload"/>
                 <div class="form-group">
                     <div class="mb-3">
@@ -44,6 +40,18 @@
     </div>
 </div>
 
+<div id="overlay" style="display:none;">
+    <div class="spinner"></div>
+    <br/>
+    Uploading...
+</div>
+
+<div id="overlay-loading" style="display:none;">
+    <div class="spinner"></div>
+    <br/>
+    Loading...
+</div>
+
 <h1 class="mt-4">Posts</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Collection of post from every car.</li>
@@ -59,5 +67,5 @@
 <!-- TODO: use this view for the home view to display all of the posts as a feed and add new view which will be triggered when clicked on a single car in the cars view and there add forms for adding new posts referencing that car from its ID -->
 
 <script>
-
+    Posts.init();
 </script>

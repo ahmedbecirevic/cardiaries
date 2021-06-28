@@ -69,8 +69,13 @@ class Posts {
       })
    }
 
-   static pre_edit(id){
+   static pre_edit (id) {
+      $('#overlay-loading').fadeIn();
+      $("#edit-post-button").prop('disabled', true);
       RestClient.get("api/posts/" + id, function (data) {
+         $("#edit-post-button").prop('disabled', false);
+         $('#overlay-loading').fadeOut();
+         console.log(data);
          Utility.json2form("#add-post-form", data);
          $("#addPostModal").modal("show");
          $("#add-post-form *[name='id']").val(id);
@@ -79,10 +84,14 @@ class Posts {
    }
 
    static addPost (post) {
+      $("#add-post-button").prop('disabled', true);
       const carId = post['car_id'];
       delete post['car_id'];
       delete post['id'];
+      $('#overlay').fadeIn();
       RestClient.post("api/user/car/posts/" + carId, post, function (data) {
+         $("#add-post-button").prop('disabled', false);
+         $('#overlay').fadeOut();
          toastr.success("New post has been added!");
          $("#add-post-form").trigger("reset");
          $('#addPostModal').modal("hide");
@@ -91,7 +100,7 @@ class Posts {
    }
 
    static preEditCarIdToPost (carId) {
-      $("#add-post-button").prop('disabled', true);  
+      $("#add-post-button").prop('disabled', true);
       $("#add-post-form *[name='car_id']").val(carId);
       $("#addPostModal").modal("show");
       $("#upload-img").hide();
@@ -107,9 +116,6 @@ class Posts {
       // Closure to capture the file information.
       reader.onload = (function(theFile) {
          return function(e) {
-            // Render thumbnail.
-            // $('#upload-img').attr('src',e.target.result); //e.target.result is th base64 encoded picture
-
             const upload = {
                name: file.name,
                content: e.target.result.split(',')[1]
@@ -149,7 +155,7 @@ class Posts {
          })
    }
 
-        // modal does not work without this onclick function
+   // modal does not work without this onclick function
    static modalEnable () {
       $('#add-post-modal-launch').click(function () {
          $('#addPostModal').modal({show : true});
@@ -161,12 +167,9 @@ class Posts {
    }
 
    static clearModalForm () {
+      $("#upload-img").show();
       $("#add-post-form").trigger("reset");
-      document.getElementById('hidden_id').value = "";
-      document.getElementById('hidden_car_id').value = "";
-      document.getElementById('post-body').value = "";
       $('#upload-img').attr('src', '');
-      document.getElementById('image_url_id').value = "";
-      $("#upload-img").hide();
+
    }
 }

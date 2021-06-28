@@ -91,7 +91,7 @@
                 </nav>
             </div>  -->
             <nav class="nav nav-pills nav-justified" id="top-nav-bar">
-                <li class="nav-item ml-3 mt-1">
+                <li class="nav-item ml-5 mt-1">
                     <a class="nav-link active" href="#home">Home</a>
                 </li>
                 <li class="nav-item ml-3 mt-1">
@@ -102,7 +102,7 @@
                 <li class="nav-item ml-3 mt-1">
                     <a class="nav-link" href="#tables">Tables</a>
                 </li>
-                <li class="nav-item mx-3 mt-1">
+                <li class="nav-item ml-3 mr-5 mt-1">
                     <a class="nav-link" href="#charts">Profile</a>
                 </li>
             </nav>
@@ -119,18 +119,18 @@
                 </div>
 
                 <!-- footer of the website -->
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; CarDiaries 2021</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                    <!-- <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright &copy; CarDiaries 2021</div>
+                                <div>
+                                    <a href="#">Privacy Policy</a>
+                                    &middot;
+                                    <a href="#">Terms &amp; Conditions</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </footer>
+                    </footer> -->
                 
             </div>
         <!-- </div> -->
@@ -175,10 +175,8 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 var app = $.jQuerySPApp({defaultView  : "home"}) // initialize
-                app.route({view : "home", load : "home.html", onReady: function() { Home.init() }});
                 app.route({view : "tables", load : "tables.html", onReady: function() { Accounts.init() }});
-                app.route({view : "posts", load : "posts.html", onReady: function() { Posts.init() }});
-                app.route({view : "cars", load : "cars.html", onReady: function() { Cars.init() }});
+
 
 
                 app.run()

@@ -146,6 +146,7 @@ class Login {
 
    static displayCar () {
       // TODO: clear modal after closing or clicking away
+      $("#cars-insert").empty();
       const carData = Utility.jsonizeForm("#search-vin-form");
       RestClient.get('api/car/' + carData.vin, function(data) {
          if ( !jQuery.isEmptyObject(data) ) {
