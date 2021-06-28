@@ -5,7 +5,6 @@ require_once dirname(__FILE__) . '/../dao/UserDao.class.php';
 require_once dirname(__FILE__) . '/../clients/SMTPClient.class.php';
 require_once dirname(__FILE__) . '/../clients/DOSpacesClient.class.php';
 
-
 use \Firebase\JWT\JWT;
 
 class UserService extends BaseService
@@ -69,8 +68,6 @@ class UserService extends BaseService
 
     public function register($user)
     {
-        // if (!isset($user['account'])) throw new Exception("Account field required");
-
         try {
             // open transaction here 
             $this->dao->beginTransaction();
@@ -106,13 +103,9 @@ class UserService extends BaseService
     public function confirm($token)
     {
         $user = $this->dao->get_user_by_token($token);
-
         if (!isset($user['id'])) throw new Exception("Invalid token", 400);
-
         $this->dao->update($user['id'], ["status" => "ACTIVE", "token" => NULL]);
-        // $this->accountDao->update($user['account_id'], ["status" => "ACTIVE"]);
-        // send email to customer that their account is now confirmed
-        //$this->smtpClient->send_user_confirmed_notice($user);
+
         return $user;
     }
 

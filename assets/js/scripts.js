@@ -6,13 +6,6 @@
     (function($) {
     "use strict";
 
-    // Add active state to sidbar nav links
-    // const path = window.location.href; // because the 'href' property of the DOM element is the absolute path
-    //     $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
-    //         if (this.href === path) {
-    //             $(this).addClass("active");
-    //         }
-    //     });
     $("#top-nav-bar .nav-item .nav-link").on("click", function(){
         $("#top-nav-bar .nav-item").find(".active").removeClass("active");
         $(this).addClass("active");

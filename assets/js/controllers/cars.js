@@ -12,7 +12,6 @@ class Cars {
 
       $("#add-car-form").validate({
          rules: {
-           // simple rule, converted to {required:true}
            model_name: "required",
            year_of_production: "required",
            vin: "required",
@@ -33,7 +32,6 @@ class Cars {
 
       $("#update-car-form").validate({
       rules: {
-         // simple rule, converted to {required:true}
          model_name: "required",
          year_of_production: "required",
          vin: "required",
@@ -74,7 +72,6 @@ class Cars {
    }
 
    static getCars () {
-      // $("#cars-insert").empty();
       RestClient.get('api/user/cars', function(data) {
          for (let i = 0; i < data.length; i++) {
             let html = "";

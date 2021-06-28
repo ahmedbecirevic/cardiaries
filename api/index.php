@@ -8,7 +8,6 @@ require_once dirname(__FILE__) . '/services/AccountService.class.php';
 require_once dirname(__FILE__) . '/services/UserService.class.php';
 require_once dirname(__FILE__) . '/services/CarService.class.php';
 require_once dirname(__FILE__) . '/services/PostService.class.php';
-
 require_once dirname(__FILE__) . '/clients/DOSpacesClient.class.php';
 
 Flight::set('flight.log_errors', true);
