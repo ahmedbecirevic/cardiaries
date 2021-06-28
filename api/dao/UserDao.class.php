@@ -23,4 +23,8 @@ class UserDao extends BaseDao
     {
         return $this->query_unique("SELECT * FROM users WHERE token = :token", ["token" => $token]);
     }
+
+    public function get_user_by_id ($id) {
+        return $this->query_unique("SELECT * FROM users WHERE id = :id", ["id" => $id]);
+    }
 }

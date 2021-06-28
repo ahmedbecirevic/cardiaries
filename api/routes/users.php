@@ -128,3 +128,13 @@ Flight::route('POST /upload', function(){
 //     Flight::json(Flight::postService()->get_posts_by_car_id($car['id']));
 //     Flight::json(Flight::carService()->get_cars_by_id(Flight::get('user')['id']));
 // });
+
+
+/**
+ * @OA\Get(path="/user/info", tags={"users"}, security={{"ApiKeyAuth": {}}},
+ *    @OA\Response(response="200", description="Fetch user's info")
+ * )
+ */
+Flight::route('GET /user/info', function () {
+    Flight::json(Flight::userService()->get_user_by_id(Flight::get('user')['id']));
+});

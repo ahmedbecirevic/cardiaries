@@ -119,4 +119,8 @@ class UserService extends BaseService
     public function uploadImage ($imageName, $content) {
         return $this->DOSpacesClient->uploadImage($imageName, $content);
     }
+
+    public function get_user_by_id ($id) {
+        return $this->dao->get_user_by_id($id);
+    }
 }
