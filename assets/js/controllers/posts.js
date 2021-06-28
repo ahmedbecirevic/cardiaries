@@ -13,6 +13,11 @@ class Posts {
             }else{
                Posts.addPost(data);
             }
+         },
+         ignore: "",
+         rules: {
+            body: "required",
+            image_url: "required"
          }
       });
    }
@@ -162,7 +167,6 @@ class Posts {
       });
 
       $("#reset-form-modal").click(Posts.clearModalForm);
-
       $("#x-reset-form-modal").click(Posts.clearModalForm);
    }
 
@@ -170,6 +174,5 @@ class Posts {
       $("#upload-img").show();
       $("#add-post-form").trigger("reset");
       $('#upload-img').attr('src', '');
-
    }
 }
