@@ -10350,3 +10350,10 @@ body {
   margin-top: 2px;
   font-family: 'Ubuntu', sans-serif;
 }
+
+@media screen and (min-width: 1400px) {
+  #layoutSidenav_content {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+}
