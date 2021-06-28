@@ -1,16 +1,16 @@
 class Accounts {
    static init(){
-      // $("#add-email-template").validate({
-      //   submitHandler: function(form, event) {
-      //     event.preventDefault();
-      //     var data = AUtils.form2json($(form));
-      //     if (data.id){
-      //       EmailTemplate.update(data);
-      //     }else{
-      //       EmailTemplate.add(data);
-      //     }
-      //   }
-      // });
+      $("#add-account-form").validate({
+        submitHandler: function(form, event) {
+          event.preventDefault();
+          var data = Utility.jsonizeForm($(form));
+          if (data.id){
+            Accounts.update(data);
+          }else{
+            Accounts.add(data);
+          }
+        }
+      });
       Accounts.get_all_accounts();
     }
 
@@ -70,9 +70,9 @@ class Accounts {
    }
 
    static pre_edit(id){
-      RestClient.get("api/user/email_templates/"+id, function(data){
-         Utility.json2form("#add-email-template", data);
-        $("#add-email-template-modal").modal("show");
+      RestClient.get("api/accounts/" + id, function(data){
+         Utility.json2form("#add-account-form", data);
+         $("#add-account-modal").modal("show");
       });
    }
 
@@ -81,18 +81,22 @@ class Accounts {
       RestClient.post("api/accounts", account, function(data){
         toastr.success("New account has been created");
         Accounts.get_all_accounts();
-        $("#add-email-template").trigger("reset");
-        $('#add-email-template-modal').modal("hide");
+        $("#add-account-form").trigger("reset");
+        $('#add-account-modal').modal("hide");
       });
     }
   
-    static update(account){
+   static update(account){
       RestClient.put("api/accounts/"+account.id, account, function(data){
         toastr.success("Email Template has been updated");
-        EmailTemplate.get_all();
-        $("#add-email-template").trigger("reset");
-        $("#add-email-template *[name='id']").val("");
-        $('#add-email-template-modal').modal("hide");
+        Accounts.get_all_accounts();
+        $("#add-account-form").trigger("reset");
+        $("#add-account-form *[name='id']").val("");
+        $('#add-account-modal').modal("hide");
       });
-    }
+   }
+
+   static showModal () {
+      $('#add-account-modal').modal({show : true});
+   }
 }
